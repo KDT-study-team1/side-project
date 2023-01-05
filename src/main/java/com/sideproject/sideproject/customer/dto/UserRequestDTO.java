@@ -4,28 +4,36 @@ import com.sideproject.sideproject.customer.domain.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Setter;
-import org.hibernate.annotations.Table;
 
 @Schema
-@Setter
+@Data
 @Builder
 public class UserRequestDTO {
-    @Schema(name = "사용자 이메일")
+    @Schema(description = "사용자 이메일", defaultValue = "test@email.com")
     private String email;
-    @Schema(name = "비밀번호")
+    @Schema(description = "비밀번호", defaultValue = "test1234")
     private String password;
-    @Schema(name = "사용자 본명")
+    @Schema(description = "사용자 본명", defaultValue = "김대수다")
     private String name;
-    @Schema(name = "폰번호")
+    @Schema(description = "폰번호", defaultValue = "010-1234-1234")
     private String phone;
-    @Schema(name = "사용자 닉네임")
+    @Schema(description = "사용자 닉네임", defaultValue = "테스터")
     private String nickName;
-    @Schema(name = "동까지 나오는 행정구역코드")
-    private int regionCode;
-    @Schema(name = "시까지 나오는 행정구역코드")
-    private int dongCode;
-    @Schema(name = "사용자 주소")
-    private String region;
+    @Schema(description = "지역 번호", defaultValue = "1111010400")
+    private Long regionCode;
+    @Schema(description = "행정구역 명", defaultValue = "서울특별시 종로구 효자동")
+    private String regionName;
 
+
+    public User toEntity(){
+        return User.builder()
+                .email(email)
+                .password(password)
+                .dongCode(regionCode)
+                .dongName(regionName)
+                .nickname(nickName)
+                .phoneNumber(phone)
+                .username(name)
+                .build();
+    }
 }
