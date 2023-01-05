@@ -3,7 +3,7 @@ package com.sideproject.sideproject.customer.service;
 import com.sideproject.sideproject.customer.domain.User;
 import com.sideproject.sideproject.customer.dto.UserRequestDTO;
 import com.sideproject.sideproject.customer.dto.UserResponseDTO;
-import com.sideproject.sideproject.customer.rspository.UserRepository;
+import com.sideproject.sideproject.customer.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

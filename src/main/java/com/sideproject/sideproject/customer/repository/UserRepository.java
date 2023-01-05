@@ -1,4 +1,4 @@
-package com.sideproject.sideproject.customer.rspository;
+package com.sideproject.sideproject.customer.repository;
 
 import com.sideproject.sideproject.customer.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
