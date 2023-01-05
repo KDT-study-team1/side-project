@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -22,7 +24,7 @@ public class SecurityConfig{
         http
                 .cors()//기본 cors 설정
                 .and()
-                .csrf().disable()
+                .csrf().disable() //csrf 비활성화
                 .formLogin().disable() //formLogin 인증 비활성화
                 .httpBasic().disable() //httpBasic 인증 비활성화
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -37,6 +39,11 @@ public class SecurityConfig{
                 .logoutUrl("/logout");
 
         return http.build();
+    }
+
+    @Bean
+    public PasswordEncoder getPasswordEncoder(){
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
 }
