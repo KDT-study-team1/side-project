@@ -1,11 +1,10 @@
 package com.sideproject.sideproject.customer.domain;
 
+import com.sideproject.sideproject.customer.dto.UserRequestDTO;
 import com.sun.istack.NotNull;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 
@@ -33,7 +32,7 @@ public class User {
     @NotNull
     private String email; // 아이디
 
-    private String password; //카카오 유저는 비밀번호가 없음
+    private String password;
 
     @NotNull
     @Column(name = "username")
@@ -62,4 +61,19 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     @Column(name = "user_status")
     private UserStatus userStatus;
+
+    @Builder
+    public User(String email, String password, String username, String nickname, String phoneNumber, Long dongCode, String dongName) {
+        this.email = email;
+        this.password = password;
+        this.username = username;
+        this.nickname = nickname;
+        this.phoneNumber = phoneNumber;
+        this.dongCode = dongCode;
+        this.dongName = dongName;
+    }
+
+    public void encoderPassword(PasswordEncoder passwordEncoder){
+        this.password = passwordEncoder.encode(this.password);
+    }
 }
