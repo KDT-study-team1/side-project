@@ -1,9 +1,11 @@
 package com.sideproject.sideproject.customer.dto;
 
 import com.sideproject.sideproject.customer.domain.User;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
 
+@Schema(description = "회원 조회시 출력할 DTO")
 @Data
 public class UserResponseDTO {
     private String email;

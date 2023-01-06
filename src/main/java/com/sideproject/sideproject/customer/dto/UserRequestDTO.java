@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
 
-@Schema
+@Schema(description = "회원 가입시 입력받는 DTO")
 @Data
 @Builder
 public class UserRequestDTO {
