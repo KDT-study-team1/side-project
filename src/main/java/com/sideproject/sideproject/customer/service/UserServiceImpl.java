@@ -4,6 +4,8 @@ import com.sideproject.sideproject.customer.domain.User;
 import com.sideproject.sideproject.customer.dto.UserRequestDTO;
 import com.sideproject.sideproject.customer.dto.UserResponseDTO;
 import com.sideproject.sideproject.customer.repository.UserRepository;
+import com.sideproject.sideproject.customer.exception.UserException;
+import com.sideproject.sideproject.customer.exception.UserExceptionType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,9 +24,18 @@ public class UserServiceImpl implements UserService{
      */
     @Override
     public UserResponseDTO signup(UserRequestDTO requestDTO) {
+        String email = requestDTO.getEmail();
+        toVerifyDuplicate(email);
+        
         User user = requestDTO.toEntity();
         user.encoderPassword(passwordEncoder);
 
         return new UserResponseDTO(userRepository.save(user));
+    }
+
+    public void toVerifyDuplicate(String email){
+        if(userRepository.findByEmail(email).isPresent()){
+            throw new UserException(UserExceptionType.DUPLICATE_EMAIL);
+        }
     }
 }
