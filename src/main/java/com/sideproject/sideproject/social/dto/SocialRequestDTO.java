@@ -16,15 +16,15 @@ public class SocialRequestDTO {
 
     private User user;
 
-    protected List<PostImage> images = new ArrayList<>();
+    private List<PostImage> images = new ArrayList<>();
 
-    protected String contents;
+    private String contents;
 
-    protected Integer regionCode;
+    private Integer regionCode;
 
-    protected Long dongCode;
+    private Long dongCode;
 
-    protected String dongName;
+    private String dongName;
 
     private Category category;
 
