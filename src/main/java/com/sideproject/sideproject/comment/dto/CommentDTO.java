@@ -50,8 +50,8 @@ public class CommentDTO {
         );
     }
 
-//    public Comment toEntity(User user, Post post, String content){
-//        return Comment.of(user, post, content);
-//    }
+    public Comment toEntity(User user, Post post, String content){
+        return Comment.of(user, post, content);
+    }
 
 }

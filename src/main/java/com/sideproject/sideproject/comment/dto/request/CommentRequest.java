@@ -1,8 +1,9 @@
 package com.sideproject.sideproject.comment.dto.request;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommentRequest {

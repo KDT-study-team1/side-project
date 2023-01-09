@@ -3,11 +3,14 @@ package com.sideproject.sideproject.comment.dto.response;
 import com.sideproject.sideproject.comment.dto.CommentDTO;
 import com.sideproject.sideproject.comment.dto.UserDTO;
 import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommentResponse {
@@ -26,7 +29,7 @@ public class CommentResponse {
     }
 
 
-    public CommentResponse from(CommentDTO dto){
+    public static CommentResponse from(CommentDTO dto){
         return CommentResponse.of(
                 dto.getId(),
                 dto.getContent(),
