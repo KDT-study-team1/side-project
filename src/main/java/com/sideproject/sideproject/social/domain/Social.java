@@ -1,13 +1,13 @@
 package com.sideproject.sideproject.social.domain;
 
+import com.sideproject.sideproject.comment.domain.Comment;
+import com.sideproject.sideproject.customer.domain.User;
 import com.sideproject.sideproject.post.domain.Post;
+import com.sideproject.sideproject.post.domain.PostImage;
 import com.sideproject.sideproject.tag.domain.Category;
 import com.sideproject.sideproject.tag.domain.SocialTag;
 import com.sun.istack.NotNull;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -57,4 +57,23 @@ public class Social extends Post {
 
     @Column(name = "contact")
     private String contact; //연락 방법
+
+    @Builder
+    public Social(User user, List<PostImage> images, List<Comment> comments, String contents,
+                  Integer regionCode, Long dongCode, String dongName, int likes, List<Socialing> socialings,
+                  Category category, List<SocialTag> socialTags, SocialStatus status, String title, Integer hits,
+                  LocalDateTime startDate, LocalDateTime endDate, Integer currentNums, Integer limitedNums, String contact) {
+        super(user, images, comments, contents, regionCode, dongCode, dongName, likes);
+        this.socialings = socialings;
+        this.category = category;
+        this.socialTags = socialTags;
+        this.status = status;
+        this.title = title;
+        this.hits = hits;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.currentNums = currentNums;
+        this.limitedNums = limitedNums;
+        this.contact = contact;
+    }
 }

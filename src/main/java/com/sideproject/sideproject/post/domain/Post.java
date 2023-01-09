@@ -20,8 +20,9 @@ import java.util.List;
 @DiscriminatorColumn(name = "post_type")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Slf4j
-public abstract class Post extends TimeAuditingEntity{
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+public abstract class Post extends TimeAuditingEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_id")
     private Long id;
 
@@ -55,4 +56,16 @@ public abstract class Post extends TimeAuditingEntity{
 
     @NotNull
     private int likes; //좋아요 수
+
+    protected Post(User user, List<PostImage> images, List<Comment> comments, String contents, Integer regionCode,
+                   Long dongCode, String dongName, int likes) {
+        this.user = user;
+        this.images = images;
+        this.comments = comments;
+        this.contents = contents;
+        this.regionCode = regionCode;
+        this.dongCode = dongCode;
+        this.dongName = dongName;
+        this.likes = likes;
+    }
 }
