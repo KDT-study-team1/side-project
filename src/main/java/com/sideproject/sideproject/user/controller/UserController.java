@@ -1,8 +1,8 @@
-package com.sideproject.sideproject.customer.controller;
+package com.sideproject.sideproject.user.controller;
 
-import com.sideproject.sideproject.customer.dto.UserRequestDTO;
-import com.sideproject.sideproject.customer.dto.UserResponseDTO;
-import com.sideproject.sideproject.customer.service.UserServiceImpl;
+import com.sideproject.sideproject.user.dto.UserRequestDTO;
+import com.sideproject.sideproject.user.dto.UserResponseDTO;
+import com.sideproject.sideproject.user.service.UserServiceImpl;
 import com.sideproject.sideproject.global.response.ResponseDTO;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Controller
 @RequiredArgsConstructor
 @Tag(name = "user", description = "사용자 API")
+@Slf4j
 public class UserController {
     private final UserServiceImpl userService;
 

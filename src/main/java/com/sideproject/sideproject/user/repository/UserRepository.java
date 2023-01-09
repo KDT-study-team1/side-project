@@ -1,6 +1,6 @@
-package com.sideproject.sideproject.customer.repository;
+package com.sideproject.sideproject.user.repository;
 
-import com.sideproject.sideproject.customer.domain.User;
+import com.sideproject.sideproject.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

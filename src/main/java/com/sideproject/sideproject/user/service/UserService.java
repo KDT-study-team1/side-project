@@ -1,8 +1,7 @@
-package com.sideproject.sideproject.customer.service;
+package com.sideproject.sideproject.user.service;
 
-import com.sideproject.sideproject.customer.domain.User;
-import com.sideproject.sideproject.customer.dto.UserRequestDTO;
-import com.sideproject.sideproject.customer.dto.UserResponseDTO;
+import com.sideproject.sideproject.user.dto.UserRequestDTO;
+import com.sideproject.sideproject.user.dto.UserResponseDTO;
 
 public interface UserService {
 

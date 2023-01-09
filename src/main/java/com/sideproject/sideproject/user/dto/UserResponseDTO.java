@@ -1,6 +1,6 @@
-package com.sideproject.sideproject.customer.dto;
+package com.sideproject.sideproject.user.dto;
 
-import com.sideproject.sideproject.customer.domain.User;
+import com.sideproject.sideproject.user.domain.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;

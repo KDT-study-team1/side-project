@@ -1,11 +1,11 @@
-package com.sideproject.sideproject.customer.service;
+package com.sideproject.sideproject.user.service;
 
-import com.sideproject.sideproject.customer.domain.User;
-import com.sideproject.sideproject.customer.dto.UserRequestDTO;
-import com.sideproject.sideproject.customer.dto.UserResponseDTO;
-import com.sideproject.sideproject.customer.repository.UserRepository;
-import com.sideproject.sideproject.customer.exception.UserException;
-import com.sideproject.sideproject.customer.exception.UserExceptionType;
+import com.sideproject.sideproject.user.domain.User;
+import com.sideproject.sideproject.user.dto.UserRequestDTO;
+import com.sideproject.sideproject.user.dto.UserResponseDTO;
+import com.sideproject.sideproject.user.repository.UserRepository;
+import com.sideproject.sideproject.user.exception.UserException;
+import com.sideproject.sideproject.user.exception.UserExceptionType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

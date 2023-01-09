@@ -1,4 +1,4 @@
-package com.sideproject.sideproject.customer.exception;
+package com.sideproject.sideproject.user.exception;
 
 import com.sideproject.sideproject.global.exception.CustomExceptionType;
 
