@@ -1,4 +1,6 @@
-package com.sideproject.sideproject.global.exception;
+package com.sideproject.sideproject.customer.exception;
+
+import com.sideproject.sideproject.global.exception.CustomExceptionType;
 
 public enum UserExceptionType implements CustomExceptionType {
     DUPLICATE_EMAIL(-301,"이미 존재하는 email입니다.");
