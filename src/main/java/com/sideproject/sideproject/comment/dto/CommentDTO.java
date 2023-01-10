@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Getter
 @Setter
 public class CommentDTO {
@@ -18,37 +19,22 @@ public class CommentDTO {
     private String content;
     private LocalDateTime createDate;
 
-    public static CommentDTO of(
-            Long postId,
-            UserDTO userDTO,
-            String content
-    ){
-        return new CommentDTO(null, postId, userDTO, content,null);
+    public static CommentDTO from(Comment entity) {
+        return CommentDTO.builder()
+                .id(entity.getId())
+                .postId(entity.getPost().getId())
+                .userDTO(UserDTO.from(entity.getUser())) //엔티티 dto로 변경해서 넣음
+                .content(entity.getContent())
+                .createDate(entity.getCreateDate())
+                .build();
     }
 
-    public static CommentDTO of(
-            Long id,
-            Long postId,
-            UserDTO userDTO,
-            String content,
-            LocalDateTime createDate
-    ){
-        return new CommentDTO(id, postId, userDTO, content, createDate);
-    }
-
-
-    public static CommentDTO from(Comment entity){
-        return new CommentDTO(
-            entity.getId(),
-            entity.getPost().getId(),
-            UserDTO.from(entity.getUser()), //userEntity를 userDTO로 변경
-            entity.getContent(),
-            entity.getCreateDate()
-        );
-    }
-
-    public Comment toEntity(User user, Post post, String content){
-        return Comment.of(user, post, content);
+    public Comment toEntity(User user, Post post, String content) {
+        return Comment.builder()
+                .user(user)
+                .post(post)
+                .content(content)
+                .build();
     }
 
 }

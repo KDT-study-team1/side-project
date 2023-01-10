@@ -4,10 +4,7 @@ import com.sideproject.sideproject.customer.domain.User;
 import com.sideproject.sideproject.post.domain.Post;
 import com.sideproject.sideproject.post.domain.TimeAuditingEntity;
 import com.sun.istack.NotNull;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 
@@ -37,17 +34,14 @@ public class Comment extends TimeAuditingEntity {
     @NotNull
     private String content;
 
+    @Builder
     public Comment(User user, Post post, String content) {
         this.user = user;
         this.post = post;
         this.content = content;
     }
 
-    public static Comment of(User user, Post post, String content){
-        return new Comment(user, post, content);
-    }
-
-    public void update(String content){
+    public void update(String content) {
         this.content = content;
     }
 

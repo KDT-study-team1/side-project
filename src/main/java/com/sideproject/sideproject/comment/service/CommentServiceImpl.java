@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class CommentServiceImpl implements CommentService{
+public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
 
@@ -42,10 +42,10 @@ public class CommentServiceImpl implements CommentService{
             Post post = postRepository.findById(dto.getPostId()).orElse(null);
             User user = userRepository.findById(dto.getUserDTO().getId()).orElse(null);
 
-            Comment comment = dto.toEntity(user,post, dto.getContent());
+            Comment comment = dto.toEntity(user, post, dto.getContent());
 
             commentRepository.save(comment);
-        } catch (Exception e){
+        } catch (Exception e) {
             return "failed";
         }
         return "success";
@@ -56,12 +56,12 @@ public class CommentServiceImpl implements CommentService{
     public String deleteComment(Long commentId, Long userId) {
         try {
             int result = commentRepository.deleteByIdAndUser_Id(commentId, userId);
-            if (result==0){
+            if (result == 0) {
                 return "failed";
-            }else{
+            } else {
                 return "success";
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             return "failed";
         }
     }
@@ -76,7 +76,7 @@ public class CommentServiceImpl implements CommentService{
             }
             comment.update(request.getContent());
             return "success";
-        }catch (Exception e){
+        } catch (Exception e) {
             return "failed";
         }
     }

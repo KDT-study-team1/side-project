@@ -14,21 +14,12 @@ public class UserDTO {
     private String dongName;
     private String profile;
 
-    public static UserDTO of(
-            Long id,
-            String nickname,
-            String dongName,
-            String profile
-    ){
-        return new UserDTO(id, nickname, dongName, profile);
-    }
-
-    public static UserDTO from(User user){
-        return UserDTO.of(
-                user.getId(),
-                user.getNickname(),
-                user.getDongName(),
-                user.getProfile()
-        );
+    public static UserDTO from(User user) {
+        return UserDTO.builder()
+                .id(user.getId())
+                .nickname(user.getNickname())
+                .dongName(user.getDongName())
+                .profile(user.getProfile())
+                .build();
     }
 }
