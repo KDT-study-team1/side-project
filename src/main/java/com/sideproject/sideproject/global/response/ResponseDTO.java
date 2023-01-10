@@ -26,4 +26,10 @@ public class ResponseDTO<T> {
         this.message = message;
         this.data = data;
     }
+
+    public ResponseDTO(int state, String result, String message) {
+        this.state = state;
+        this.result = result;
+        this.message = message;
+    }
 }

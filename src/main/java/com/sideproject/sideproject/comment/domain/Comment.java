@@ -4,15 +4,14 @@ import com.sideproject.sideproject.customer.domain.User;
 import com.sideproject.sideproject.post.domain.Post;
 import com.sideproject.sideproject.post.domain.TimeAuditingEntity;
 import com.sun.istack.NotNull;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 
 import javax.persistence.*;
 
 @Getter
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
 @Entity
@@ -33,17 +32,28 @@ public class Comment extends TimeAuditingEntity {
     private Post post; // 댓글이 달린 글
 
     @NotNull
-    private String contents;
+    private String content;
 
-    @Column(name = "c_group")
-    private int cGroup; // group
-    private int level; // 계층
+    @Builder
+    public Comment(User user, Post post, String content) {
+        this.user = user;
+        this.post = post;
+        this.content = content;
+    }
 
-    @Column(name = "ref_order")
-    private int refOrder; // 같은 그룹 내의 순서
+    public void update(String content) {
+        this.content = content;
+    }
 
-    @Column(name = "parent_num")
-    private Long parentNum; // 부모 댓글의 ID
-    private Boolean deleted = false; //삭제되었는지 여부
-    private String regionName;
+//    @Column(name = "c_group")
+//    private int cGroup; // group
+//    private int level; // 계층
+//
+//    @Column(name = "ref_order")
+//    private int refOrder; // 같은 그룹 내의 순서
+//
+//    @Column(name = "parent_num")
+//    private Long parentNum; // 부모 댓글의 ID
+//    private Boolean deleted = false; //삭제되었는지 여부
+//    private String regionName;
 }
