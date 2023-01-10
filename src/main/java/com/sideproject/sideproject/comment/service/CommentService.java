@@ -1,5 +1,6 @@
 package com.sideproject.sideproject.comment.service;
 
+import com.sideproject.sideproject.comment.dto.CommentDTO;
 import com.sideproject.sideproject.comment.dto.request.CommentRequest;
 import com.sideproject.sideproject.comment.dto.response.CommentResponse;
 
@@ -11,7 +12,7 @@ public interface CommentService {
     List<CommentResponse> selectComments(Long postId);
 
     // 댓글 작성
-    String saveComment(CommentRequest request);
+    String saveComment(CommentDTO dto);
 
     //댓글 삭제
     String deleteComment(Long commentId, Long userId);

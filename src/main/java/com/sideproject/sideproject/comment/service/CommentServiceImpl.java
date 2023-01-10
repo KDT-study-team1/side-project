@@ -1,9 +1,15 @@
 package com.sideproject.sideproject.comment.service;
 
+import com.sideproject.sideproject.comment.domain.Comment;
 import com.sideproject.sideproject.comment.dto.CommentDTO;
+import com.sideproject.sideproject.comment.dto.UserDTO;
 import com.sideproject.sideproject.comment.dto.request.CommentRequest;
 import com.sideproject.sideproject.comment.dto.response.CommentResponse;
 import com.sideproject.sideproject.comment.repository.CommentRepository;
+import com.sideproject.sideproject.customer.domain.User;
+import com.sideproject.sideproject.customer.rspository.UserRepository;
+import com.sideproject.sideproject.post.domain.Post;
+import com.sideproject.sideproject.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +22,11 @@ public class CommentServiceImpl implements CommentService{
 
     private final CommentRepository commentRepository;
 
+    private final PostRepository postRepository;
+
+    private final UserRepository userRepository;
+
+
     @Override
     public List<CommentResponse> selectComments(Long postId) {
         return commentRepository.findByPostId(postId)
@@ -26,8 +37,18 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
-    public String saveComment(CommentRequest request) {
-        return null;
+    public String saveComment(CommentDTO dto) {
+        try {
+            Post post = postRepository.findById(dto.getPostId()).orElse(null);
+            User user = userRepository.findById(dto.getUserDTO().getId()).orElse(null);
+
+            Comment comment = dto.toEntity(user,post, dto.getContent());
+
+            commentRepository.save(comment);
+        } catch (Exception e){
+            return "failed";
+        }
+        return "success";
     }
 
     @Override
