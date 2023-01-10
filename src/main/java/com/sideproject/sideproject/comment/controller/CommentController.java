@@ -19,9 +19,14 @@ public class CommentController {
     private final CommentService commentService;
 
     @GetMapping("/{postId}")
-    public List<CommentResponse> selectComments(@PathVariable Long postId){
+    public ResponseDTO<List<CommentResponse>> selectComments(@PathVariable Long postId){
         List<CommentResponse> commentResponse = commentService.selectComments(postId);
-        return commentResponse;
+        return new ResponseDTO<>(
+                200,
+                "success",
+                "댓글 조회 성공",
+                commentResponse
+        );
     }
 
     @PostMapping("")
@@ -36,8 +41,13 @@ public class CommentController {
         ,"댓글 달기 성공");
     }
 
-//    @DeleteMapping("/{commendId}")
-//    public String deleteComment(@PathVariable Long commentId){
-//        return commentService.deleteComment(commentId);
-//    }
+    @DeleteMapping("/{commentId}")
+    public ResponseDTO<?> deleteComment(@PathVariable Long commentId){
+        Long userId = 1L; //로그인 구현전 임시
+        return new ResponseDTO<>(
+                200,
+                commentService.deleteComment(commentId, userId),
+                "댓글 삭제 성공"
+        );
+    }
 }

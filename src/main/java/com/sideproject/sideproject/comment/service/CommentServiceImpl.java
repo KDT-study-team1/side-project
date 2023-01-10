@@ -13,6 +13,7 @@ import com.sideproject.sideproject.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +30,7 @@ public class CommentServiceImpl implements CommentService{
 
     @Override
     public List<CommentResponse> selectComments(Long postId) {
-        return commentRepository.findByPostId(postId)
+        return commentRepository.findByPost_Id(postId)
                 .stream()
                 .map(CommentDTO::from)
                 .map(CommentResponse::from)
@@ -52,8 +53,18 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
+    @Transactional
     public String deleteComment(Long commentId, Long userId) {
-        return null;
+        try {
+            int result = commentRepository.deleteByIdAndUser_Id(commentId, userId);
+            if (result==0){
+                return "failed";
+            }else{
+                return "success";
+            }
+        }catch (Exception e){
+            return "failed";
+        }
     }
 
     @Override
