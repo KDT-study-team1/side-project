@@ -81,5 +81,12 @@ public class CommentServiceImpl implements CommentService{
         }
     }
 
-
+    @Override
+    public List<CommentResponse> userComment(Long userId) {
+        return commentRepository.findByUser_Id(userId)
+                .stream()
+                .map(CommentDTO::from)
+                .map(CommentResponse::from)
+                .collect(Collectors.toList());
+    }
 }

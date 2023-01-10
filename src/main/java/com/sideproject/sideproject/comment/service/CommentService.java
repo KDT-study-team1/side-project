@@ -18,7 +18,8 @@ public interface CommentService {
     String deleteComment(Long commentId, Long userId);
 
     //댓글 수정
-    String updateComment(Long commentId, Long userId);
+    String updateComment(Long commentId, Long userId, CommentRequest commentRequest);
 
-
+    //유저별 댓글 조회
+    List<CommentResponse> userComment(Long userId);
 }

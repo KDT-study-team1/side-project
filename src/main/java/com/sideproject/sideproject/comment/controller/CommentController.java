@@ -60,4 +60,16 @@ public class CommentController {
         );
     }
 
+    @GetMapping("/me")
+    public ResponseDTO<?> userComment(){
+        Long userId = 1L; //로그인 구현전 임시
+        List<CommentResponse> response = commentService.userComment(userId);
+        return new ResponseDTO<>(
+                200,
+                "success",
+                "유저의 댓글 조회 성공",
+                response
+        );
+    }
+
 }
