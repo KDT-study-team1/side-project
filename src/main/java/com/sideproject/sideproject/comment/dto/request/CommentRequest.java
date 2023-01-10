@@ -1,5 +1,7 @@
 package com.sideproject.sideproject.comment.dto.request;
 
+import com.sideproject.sideproject.comment.dto.CommentDTO;
+import com.sideproject.sideproject.comment.dto.UserDTO;
 import lombok.*;
 
 @Getter
@@ -17,4 +19,11 @@ public class CommentRequest {
     }
 
 
+    public CommentDTO toDTO(UserDTO userDTO){
+        return CommentDTO.of(
+                postId,
+                userDTO,
+                content
+        );
+    }
 }
