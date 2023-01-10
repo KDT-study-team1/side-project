@@ -2,7 +2,6 @@ package com.sideproject.sideproject.comment.service;
 
 import com.sideproject.sideproject.comment.domain.Comment;
 import com.sideproject.sideproject.comment.dto.CommentDTO;
-import com.sideproject.sideproject.comment.dto.UserDTO;
 import com.sideproject.sideproject.comment.dto.request.CommentRequest;
 import com.sideproject.sideproject.comment.dto.response.CommentResponse;
 import com.sideproject.sideproject.comment.repository.CommentRepository;
@@ -68,7 +67,19 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
-    public String updateComment(Long commentId, Long userId) {
-        return null;
+    @Transactional
+    public String updateComment(Long commentId, Long userId, CommentRequest request) {
+        try {
+            Comment comment = commentRepository.findByIdAndUser_Id(commentId, userId).orElseThrow(Exception::new);
+            if (comment == null) {
+                return "failed";
+            }
+            comment.update(request.getContent());
+            return "success";
+        }catch (Exception e){
+            return "failed";
+        }
     }
+
+
 }

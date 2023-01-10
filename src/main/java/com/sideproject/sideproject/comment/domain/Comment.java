@@ -47,6 +47,10 @@ public class Comment extends TimeAuditingEntity {
         return new Comment(user, post, content);
     }
 
+    public void update(String content){
+        this.content = content;
+    }
+
 //    @Column(name = "c_group")
 //    private int cGroup; // group
 //    private int level; // 계층

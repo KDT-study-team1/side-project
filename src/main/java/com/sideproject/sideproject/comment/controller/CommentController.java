@@ -6,7 +6,6 @@ import com.sideproject.sideproject.comment.dto.response.CommentResponse;
 import com.sideproject.sideproject.comment.service.CommentService;
 import com.sideproject.sideproject.global.response.ResponseDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -50,4 +49,15 @@ public class CommentController {
                 "댓글 삭제 성공"
         );
     }
+
+    @PutMapping("/{commentId}")
+    public ResponseDTO<?> updateComment(@PathVariable Long commentId, @RequestBody CommentRequest commentRequest){
+        Long userId = 1L; //로그인 구현전 임시
+        return new ResponseDTO<>(
+                200,
+                commentService.updateComment(commentId, userId,commentRequest),
+                "댓글 수정 성공"
+        );
+    }
+
 }
