@@ -6,7 +6,7 @@ import com.sideproject.sideproject.comment.dto.request.CommentRequest;
 import com.sideproject.sideproject.comment.dto.response.CommentResponse;
 import com.sideproject.sideproject.comment.repository.CommentRepository;
 import com.sideproject.sideproject.customer.domain.User;
-import com.sideproject.sideproject.customer.rspository.UserRepository;
+import com.sideproject.sideproject.customer.repository.UserRepository;
 import com.sideproject.sideproject.post.domain.Post;
 import com.sideproject.sideproject.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
@@ -55,12 +55,12 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public String deleteComment(Long commentId, Long userId) {
         try {
-            int result = commentRepository.deleteByIdAndUser_Id(commentId, userId);
-            if (result == 0) {
+            Comment comment = commentRepository.findByIdAndUser_Id(commentId, userId).orElseThrow(Exception::new);
+            if (comment == null) {
                 return "failed";
-            } else {
-                return "success";
             }
+            comment.delete();
+            return "success";
         } catch (Exception e) {
             return "failed";
         }
