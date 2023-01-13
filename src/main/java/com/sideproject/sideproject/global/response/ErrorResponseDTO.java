@@ -1,13 +1,11 @@
 package com.sideproject.sideproject.global.response;
 
-import com.sideproject.sideproject.customer.exception.UserExceptionType;
 import com.sideproject.sideproject.global.exception.CustomExceptionType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

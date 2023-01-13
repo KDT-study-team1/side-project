@@ -6,7 +6,6 @@ import lombok.Data;
 import org.springframework.http.HttpStatus;
 
 @Builder
-@Data
 public class ResponseDTO<T> {
 
     @Schema(name = "Http code", example = "200")
@@ -26,4 +25,5 @@ public class ResponseDTO<T> {
     public static <T> ResponseDTO<T> empty() {
         return new ResponseDTO<>(null);
     }
+
 }
