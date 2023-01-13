@@ -1,6 +1,6 @@
 package com.sideproject.sideproject.comment.domain;
 
-import com.sideproject.sideproject.customer.domain.User;
+import com.sideproject.sideproject.user.domain.User;
 import com.sideproject.sideproject.post.domain.Post;
 import com.sideproject.sideproject.post.domain.TimeAuditingEntity;
 import com.sun.istack.NotNull;

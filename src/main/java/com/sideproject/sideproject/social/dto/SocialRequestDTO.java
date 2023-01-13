@@ -1,6 +1,6 @@
 package com.sideproject.sideproject.social.dto;
 
-import com.sideproject.sideproject.customer.domain.User;
+import com.sideproject.sideproject.user.domain.User;
 import com.sideproject.sideproject.post.domain.PostImage;
 import com.sideproject.sideproject.social.domain.Social;
 import com.sideproject.sideproject.tag.domain.Category;
