@@ -10,14 +10,17 @@ import com.sideproject.sideproject.customer.repository.UserRepository;
 import com.sideproject.sideproject.post.domain.Post;
 import com.sideproject.sideproject.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
@@ -28,23 +31,33 @@ public class CommentServiceImpl implements CommentService {
 
 
     @Override
-    public List<CommentResponse> selectComments(Long postId) {
-        return commentRepository.findByPost_Id(postId)
+
+    public Set<CommentResponse> selectComments(Long postId) {
+        Set<CommentDTO> dtos = commentRepository.findByPost_Id(postId)
                 .stream()
                 .map(CommentDTO::from)
-                .map(CommentResponse::from)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
+        return CommentResponse.organizeChildComments(dtos);
+
     }
 
     @Override
+    @Transactional
     public String saveComment(CommentDTO dto) {
         try {
             Post post = postRepository.findById(dto.getPostId()).orElse(null);
             User user = userRepository.findById(dto.getUserDTO().getId()).orElse(null);
 
             Comment comment = dto.toEntity(user, post, dto.getContent());
+            if (dto.getParentCommentId() == null) {
+                commentRepository.save(comment);
+            } else {
+                Comment parentComment = commentRepository.findById(dto.getParentCommentId()).orElse(null);
+                if (parentComment != null && !parentComment.getDeleted()) {
+                    parentComment.addChildComment(comment);
+                }
+            }
 
-            commentRepository.save(comment);
         } catch (Exception e) {
             return "failed";
         }
