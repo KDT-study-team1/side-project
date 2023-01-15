@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/comment")
@@ -18,8 +19,8 @@ public class CommentController {
     private final CommentService commentService;
 
     @GetMapping("/{postId}")
-    public ResponseDTO<List<CommentResponse>> selectComments(@PathVariable Long postId) {
-        List<CommentResponse> commentResponse = commentService.selectComments(postId);
+    public ResponseDTO<Set<CommentResponse>> selectComments(@PathVariable Long postId) {
+        Set<CommentResponse> commentResponse = commentService.selectComments(postId);
         return new ResponseDTO<>(
                 200,
                 "success",
