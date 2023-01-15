@@ -7,10 +7,7 @@ import com.sun.istack.NotNull;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-
 import javax.persistence.*;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @ToString
 @Getter
@@ -41,23 +38,13 @@ public class Comment extends TimeAuditingEntity {
     @Setter
     private Long parentCommentId;
 
-    @ToString.Exclude
-    @OrderBy("createDate ASC ")
-    @OneToMany(mappedBy = "parentCommentId", cascade = {CascadeType.PERSIST,CascadeType.MERGE})
-    private Set<Comment> childComments = new LinkedHashSet<>(); //순서대로 저장하기 위해서
-
-
-
-    public void addChildComment(Comment child) {
-        child.setParentCommentId(this.getId()); //setter사용 없애자
-        this.getChildComments().add(child);
-    }
 
     @Builder
-    public Comment(User user, Post post, String content) {
+    public Comment(User user, Post post, String content, Long parentCommentId) {
         this.user = user;
         this.post = post;
         this.content = content;
+        this.parentCommentId=parentCommentId;
     }
 
     public void update(String content) {

@@ -48,15 +48,8 @@ public class CommentServiceImpl implements CommentService {
             Post post = postRepository.findById(dto.getPostId()).orElse(null);
             User user = userRepository.findById(dto.getUserDTO().getId()).orElse(null);
 
-            Comment comment = dto.toEntity(user, post, dto.getContent());
-            if (dto.getParentCommentId() == null) {
-                commentRepository.save(comment);
-            } else {
-                Comment parentComment = commentRepository.findById(dto.getParentCommentId()).orElse(null);
-                if (parentComment != null && !parentComment.getDeleted()) {
-                    parentComment.addChildComment(comment);
-                }
-            }
+            Comment comment = dto.toEntity(user, post, dto.getContent(), dto.getParentCommentId());
+            commentRepository.save(comment);
 
         } catch (Exception e) {
             return "failed";

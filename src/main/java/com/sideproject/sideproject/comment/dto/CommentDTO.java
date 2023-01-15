@@ -31,11 +31,12 @@ public class CommentDTO {
                 .build();
     }
 
-    public Comment toEntity(User user, Post post, String content) {
+    public Comment toEntity(User user, Post post, String content, Long parentCommentId) {
         return Comment.builder()
                 .user(user)
                 .post(post)
                 .content(content)
+                .parentCommentId(parentCommentId)
                 .build();
     }
 
