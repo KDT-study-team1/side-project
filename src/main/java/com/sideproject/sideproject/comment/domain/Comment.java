@@ -9,7 +9,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 
 import javax.persistence.*;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
+@ToString
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -33,6 +36,22 @@ public class Comment extends TimeAuditingEntity {
 
     @NotNull
     private String content;
+
+    @Column(updatable = false)
+    @Setter
+    private Long parentCommentId;
+
+    @ToString.Exclude
+    @OrderBy("createDate ASC ")
+    @OneToMany(mappedBy = "parentCommentId", cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    private Set<Comment> childComments = new LinkedHashSet<>(); //순서대로 저장하기 위해서
+
+
+
+    public void addChildComment(Comment child) {
+        child.setParentCommentId(this.getId()); //setter사용 없애자
+        this.getChildComments().add(child);
+    }
 
     @Builder
     public Comment(User user, Post post, String content) {
