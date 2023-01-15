@@ -17,6 +17,7 @@ public class CommentDTO {
     private Long postId;
     private UserDTO userDTO;
     private String content;
+    private Long parentCommentId;
     private LocalDateTime createDate;
 
     public static CommentDTO from(Comment entity) {
@@ -25,6 +26,7 @@ public class CommentDTO {
                 .postId(entity.getPost().getId())
                 .userDTO(UserDTO.from(entity.getUser())) //엔티티 dto로 변경해서 넣음
                 .content(entity.getContent())
+                .parentCommentId(entity.getParentCommentId())
                 .createDate(entity.getCreateDate())
                 .build();
     }

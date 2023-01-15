@@ -11,6 +11,7 @@ import lombok.*;
 public class CommentRequest {
     Long postId;
     String content;
+    Long parentCommentId;
 
     //TODO: 2023-01-09 대댓글 구현할때 parentCommentId 추가
 
@@ -20,6 +21,7 @@ public class CommentRequest {
                 .postId(this.postId)
                 .userDTO(userDTO)
                 .content(this.content)
+                .parentCommentId(this.parentCommentId)
                 .build();
     }
 }
