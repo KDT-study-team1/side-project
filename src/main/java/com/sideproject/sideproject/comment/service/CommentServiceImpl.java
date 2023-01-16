@@ -31,7 +31,6 @@ public class CommentServiceImpl implements CommentService {
 
 
     @Override
-
     public Set<CommentResponse> selectComments(Long postId) {
         Set<CommentDTO> dtos = commentRepository.findByPost_Id(postId)
                 .stream()
@@ -89,7 +88,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<CommentResponse> userComment(Long userId) {
-        return commentRepository.findByUser_Id(userId)
+        return commentRepository.findByUser_IdAndDeletedIsFalseOrderByCreateDateDesc(userId)
                 .stream()
                 .map(CommentDTO::from)
                 .map(CommentResponse::from)
