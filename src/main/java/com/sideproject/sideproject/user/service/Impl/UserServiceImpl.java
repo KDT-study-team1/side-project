@@ -1,4 +1,4 @@
-package com.sideproject.sideproject.user.service;
+package com.sideproject.sideproject.user.service.Impl;
 
 import com.sideproject.sideproject.user.domain.User;
 import com.sideproject.sideproject.user.dto.UserRequestDTO;
@@ -6,13 +6,14 @@ import com.sideproject.sideproject.user.dto.UserResponseDTO;
 import com.sideproject.sideproject.user.repository.UserRepository;
 import com.sideproject.sideproject.user.exception.UserException;
 import com.sideproject.sideproject.user.exception.UserExceptionType;
+import com.sideproject.sideproject.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
