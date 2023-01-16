@@ -45,7 +45,7 @@ public class CommentServiceImpl implements CommentService {
     public String saveComment(CommentDTO dto) {
         try {
             Post post = postRepository.findById(dto.getPostId()).orElse(null);
-            User user = userRepository.findById(dto.getUserDTO().getId()).orElse(null);
+            User user = userRepository.findById(dto.getCommentUserDTO().getId()).orElse(null);
 
             Comment comment = dto.toEntity(user, post, dto.getContent(), dto.getParentCommentId());
             commentRepository.save(comment);

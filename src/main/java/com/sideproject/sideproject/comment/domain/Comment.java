@@ -44,7 +44,7 @@ public class Comment extends TimeAuditingEntity {
         this.user = user;
         this.post = post;
         this.content = content;
-        this.parentCommentId=parentCommentId;
+        this.parentCommentId = parentCommentId;
     }
 
     public void update(String content) {

@@ -1,6 +1,6 @@
 package com.sideproject.sideproject.comment.controller;
 
-import com.sideproject.sideproject.comment.dto.UserDTO;
+import com.sideproject.sideproject.comment.dto.CommentUserDTO;
 import com.sideproject.sideproject.comment.dto.request.CommentRequest;
 import com.sideproject.sideproject.comment.dto.response.CommentResponse;
 import com.sideproject.sideproject.comment.service.CommentService;
@@ -31,13 +31,13 @@ public class CommentController {
 
     @PostMapping("")
     public ResponseDTO<?> saveComment(@RequestBody CommentRequest commentRequest) {
-        UserDTO userDTO = UserDTO.builder()
+        CommentUserDTO commentUserDTO = CommentUserDTO.builder()
                 .id(1L)
                 .nickname("유저1")
                 .profile("sjfewfe")
                 .dongName("a동")
                 .build(); //로그인 구현전 임시
-        String result = commentService.saveComment(commentRequest.toDTO(userDTO));
+        String result = commentService.saveComment(commentRequest.toDTO(commentUserDTO));
         return new ResponseDTO<>(
                 200,
                 result,

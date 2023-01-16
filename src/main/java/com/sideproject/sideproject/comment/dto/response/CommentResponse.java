@@ -1,7 +1,7 @@
 package com.sideproject.sideproject.comment.dto.response;
 
 import com.sideproject.sideproject.comment.dto.CommentDTO;
-import com.sideproject.sideproject.comment.dto.UserDTO;
+import com.sideproject.sideproject.comment.dto.CommentUserDTO;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -18,7 +18,7 @@ public class CommentResponse {
     Long id;
     String content;
     LocalDateTime createDate;
-    UserDTO userDTO;
+    CommentUserDTO commentUserDTO;
     Long parentCommentId;
     Set<CommentResponse> childComments;
 
@@ -27,7 +27,7 @@ public class CommentResponse {
                 .id(dto.getId())
                 .content(dto.getContent())
                 .createDate(dto.getCreateDate())
-                .userDTO(dto.getUserDTO())
+                .commentUserDTO(dto.getCommentUserDTO())
                 .parentCommentId(dto.getParentCommentId())
                 .childComments(new TreeSet<>(Comparator.comparing(CommentResponse::getCreateDate)
                         .thenComparingLong(CommentResponse::getId)))
@@ -37,7 +37,7 @@ public class CommentResponse {
 
     public static Set<CommentResponse> organizeChildComments(
             Set<CommentDTO> dtos
-    ){
+    ) {
         Map<Long, CommentResponse> map = dtos.stream()
                 .map(CommentResponse::from)
                 .collect(Collectors.toMap(CommentResponse::getId, Function.identity()));
@@ -52,13 +52,13 @@ public class CommentResponse {
         return map.values().stream()
                 .filter(comment -> !comment.hasParentComment())
                 .collect(Collectors.toCollection(
-                        ()->new TreeSet<>(Comparator.comparing(CommentResponse::getCreateDate)
+                        () -> new TreeSet<>(Comparator.comparing(CommentResponse::getCreateDate)
                                 .thenComparingLong(CommentResponse::getId))
 
                 ));
     }
 
-    private boolean hasParentComment(){
-        return parentCommentId !=null;
+    private boolean hasParentComment() {
+        return parentCommentId != null;
     }
 }
