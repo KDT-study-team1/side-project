@@ -18,8 +18,11 @@ public class CommentResponse {
     Long id;
     String content;
     LocalDateTime createDate;
-    CommentUserDTO commentUserDTO;
     Long parentCommentId;
+
+    Boolean deleted;
+
+    CommentUserDTO commentUserDTO;
     Set<CommentResponse> childComments;
 
     public static CommentResponse from(CommentDTO dto) {
@@ -27,8 +30,9 @@ public class CommentResponse {
                 .id(dto.getId())
                 .content(dto.getContent())
                 .createDate(dto.getCreateDate())
-                .commentUserDTO(dto.getCommentUserDTO())
                 .parentCommentId(dto.getParentCommentId())
+                .deleted(dto.getDeleted())
+                .commentUserDTO(dto.getCommentUserDTO())
                 .childComments(new TreeSet<>(Comparator.comparing(CommentResponse::getCreateDate)
                         .thenComparingLong(CommentResponse::getId)))
                 .build();

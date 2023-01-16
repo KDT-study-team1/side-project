@@ -19,6 +19,7 @@ public class CommentDTO {
     private String content;
     private Long parentCommentId;
     private LocalDateTime createDate;
+    private Boolean deleted;
 
     public static CommentDTO from(Comment entity) {
         return CommentDTO.builder()
@@ -28,6 +29,7 @@ public class CommentDTO {
                 .content(entity.getContent())
                 .parentCommentId(entity.getParentCommentId())
                 .createDate(entity.getCreateDate())
+                .deleted(entity.getDeleted())
                 .build();
     }
 

@@ -55,6 +55,8 @@ public class Comment extends TimeAuditingEntity {
         this.deleted = true;
     }
 
+    private Boolean deleted = false; //삭제되었는지 여부
+
     //    @Column(name = "c_group")
 //    private int cGroup; // group
 //    private int level; // 계층
@@ -64,6 +66,5 @@ public class Comment extends TimeAuditingEntity {
 //
 //    @Column(name = "parent_num")
 //    private Long parentNum; // 부모 댓글의 ID
-    private Boolean deleted = false; //삭제되었는지 여부
-//    private String regionName;
+
 }
