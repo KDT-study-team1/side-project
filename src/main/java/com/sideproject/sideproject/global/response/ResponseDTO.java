@@ -27,4 +27,7 @@ public class ResponseDTO<T> {
         this.data = data;
     }
 
+    public static <T> ResponseDTO<T> empty() {
+        return new ResponseDTO<>(null);
+    }
 }
