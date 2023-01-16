@@ -9,9 +9,6 @@ import org.springframework.http.HttpStatus;
 @Data
 public class ResponseDTO<T> {
 
-    @Schema(name = "success", example = "true")
-    private Boolean success;
-
     @Schema(name = "Http code", example = "200")
     private Integer code;
     @Schema(name = "result message", example = "응답 성공")
@@ -21,7 +18,6 @@ public class ResponseDTO<T> {
     private T data;
 
     public ResponseDTO(T data) {
-        this.success = true;
         this.code = HttpStatus.OK.value();
         this.message = "요청에 성공하였습니다.";
         this.data = data;
