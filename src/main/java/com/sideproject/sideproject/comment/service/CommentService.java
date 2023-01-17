@@ -5,11 +5,12 @@ import com.sideproject.sideproject.comment.dto.request.CommentRequest;
 import com.sideproject.sideproject.comment.dto.response.CommentResponse;
 
 import java.util.List;
+import java.util.Set;
 
 public interface CommentService {
 
     //댓글 조회
-    List<CommentResponse> selectComments(Long postId);
+    Set<CommentResponse> selectComments(Long postId);
 
     // 댓글 작성
     String saveComment(CommentDTO dto);
@@ -22,4 +23,6 @@ public interface CommentService {
 
     //유저별 댓글 조회
     List<CommentResponse> userComment(Long userId);
+
+
 }

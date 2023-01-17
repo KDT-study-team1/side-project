@@ -10,9 +10,9 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     List<Comment> findByPost_Id(Long postId);
 
-    int deleteByIdAndUser_Id(Long commentId, Long userId);
-
     Optional<Comment> findByIdAndUser_Id(Long id, Long userId);
 
     List<Comment> findByUser_Id(Long userId);
+
+    List<Comment> findByUser_IdAndDeletedIsFalseOrderByCreateDateDesc(Long userId);
 }

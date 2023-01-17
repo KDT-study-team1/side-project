@@ -1,6 +1,6 @@
 package com.sideproject.sideproject.comment.controller;
 
-import com.sideproject.sideproject.comment.dto.UserDTO;
+import com.sideproject.sideproject.comment.dto.CommentUserDTO;
 import com.sideproject.sideproject.comment.dto.request.CommentRequest;
 import com.sideproject.sideproject.comment.dto.response.CommentResponse;
 import com.sideproject.sideproject.comment.service.CommentService;
@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/comment")
@@ -18,64 +19,42 @@ public class CommentController {
     private final CommentService commentService;
 
     @GetMapping("/{postId}")
-    public ResponseDTO<List<CommentResponse>> selectComments(@PathVariable Long postId) {
-        List<CommentResponse> commentResponse = commentService.selectComments(postId);
-        return new ResponseDTO<>(
-                200,
-                "success",
-                "댓글 조회 성공",
-                commentResponse
-        );
+    public ResponseDTO<Set<CommentResponse>> selectComments(@PathVariable Long postId) {
+        Set<CommentResponse> commentResponse = commentService.selectComments(postId);
+        return new ResponseDTO<>(commentResponse);
     }
 
     @PostMapping("")
     public ResponseDTO<?> saveComment(@RequestBody CommentRequest commentRequest) {
-        UserDTO userDTO = UserDTO.builder()
+        CommentUserDTO commentUserDTO = CommentUserDTO.builder()
                 .id(1L)
                 .nickname("유저1")
                 .profile("sjfewfe")
                 .dongName("a동")
                 .build(); //로그인 구현전 임시
-        String result = commentService.saveComment(commentRequest.toDTO(userDTO));
-        return new ResponseDTO<>(
-                200,
-                result,
-                "댓글 달기 성공"
-        );
+        commentService.saveComment(commentRequest.toDTO(commentUserDTO));
+        return ResponseDTO.empty();
     }
 
     @DeleteMapping("/{commentId}")
     public ResponseDTO<?> deleteComment(@PathVariable Long commentId) {
         Long userId = 1L; //로그인 구현전 임시
-        String result = commentService.deleteComment(commentId, userId);
-        return new ResponseDTO<>(
-                200,
-                result,
-                "댓글 삭제 성공"
-        );
+        commentService.deleteComment(commentId, userId);
+        return ResponseDTO.empty();
     }
 
     @PutMapping("/{commentId}")
     public ResponseDTO<?> updateComment(@PathVariable Long commentId, @RequestBody CommentRequest commentRequest) {
         Long userId = 1L; //로그인 구현전 임시
-        String result = commentService.updateComment(commentId, userId, commentRequest);
-        return new ResponseDTO<>(
-                200,
-                result,
-                "댓글 수정 성공"
-        );
+        commentService.updateComment(commentId, userId, commentRequest);
+        return ResponseDTO.empty();
     }
 
     @GetMapping("/me")
     public ResponseDTO<?> userComment() {
         Long userId = 1L; //로그인 구현전 임시
         List<CommentResponse> response = commentService.userComment(userId);
-        return new ResponseDTO<>(
-                200,
-                "success",
-                "유저의 댓글 조회 성공",
-                response
-        );
+        return new ResponseDTO<>(response);
     }
 
 }

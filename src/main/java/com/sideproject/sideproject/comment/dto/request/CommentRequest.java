@@ -1,7 +1,7 @@
 package com.sideproject.sideproject.comment.dto.request;
 
 import com.sideproject.sideproject.comment.dto.CommentDTO;
-import com.sideproject.sideproject.comment.dto.UserDTO;
+import com.sideproject.sideproject.comment.dto.CommentUserDTO;
 import lombok.*;
 
 @Getter
@@ -11,15 +11,15 @@ import lombok.*;
 public class CommentRequest {
     Long postId;
     String content;
+    Long parentCommentId;
 
-    //TODO: 2023-01-09 대댓글 구현할때 parentCommentId 추가
 
-
-    public CommentDTO toDTO(UserDTO userDTO) {
+    public CommentDTO toDTO(CommentUserDTO commentUserDTO) {
         return CommentDTO.builder()
                 .postId(this.postId)
-                .userDTO(userDTO)
+                .commentUserDTO(commentUserDTO)
                 .content(this.content)
+                .parentCommentId(this.parentCommentId)
                 .build();
     }
 }

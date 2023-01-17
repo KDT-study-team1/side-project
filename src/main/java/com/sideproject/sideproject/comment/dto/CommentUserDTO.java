@@ -8,14 +8,14 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class UserDTO {
+public class CommentUserDTO {
     private Long id;
     private String nickname;
     private String dongName;
     private String profile;
 
-    public static UserDTO from(User user) {
-        return UserDTO.builder()
+    public static CommentUserDTO from(User user) {
+        return CommentUserDTO.builder()
                 .id(user.getId())
                 .nickname(user.getNickname())
                 .dongName(user.getDongName())
