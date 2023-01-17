@@ -12,8 +12,8 @@ import com.sideproject.sideproject.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -31,6 +31,7 @@ public class CommentServiceImpl implements CommentService {
 
 
     @Override
+    @Transactional(readOnly = true)
     public Set<CommentResponse> selectComments(Long postId) {
         Set<CommentDTO> dtos = commentRepository.findByPost_Id(postId)
                 .stream()
@@ -87,6 +88,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<CommentResponse> userComment(Long userId) {
         return commentRepository.findByUser_IdAndDeletedIsFalseOrderByCreateDateDesc(userId)
                 .stream()
