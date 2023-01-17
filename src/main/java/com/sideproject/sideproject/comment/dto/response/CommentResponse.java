@@ -2,6 +2,7 @@ package com.sideproject.sideproject.comment.dto.response;
 
 import com.sideproject.sideproject.comment.dto.CommentDTO;
 import com.sideproject.sideproject.comment.dto.CommentUserDTO;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Schema(description = "댓글 조회시 출력할 DTO")
 public class CommentResponse {
     Long id;
     String content;
