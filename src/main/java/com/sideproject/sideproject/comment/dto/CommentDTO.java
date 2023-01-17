@@ -1,7 +1,7 @@
 package com.sideproject.sideproject.comment.dto;
 
 import com.sideproject.sideproject.comment.domain.Comment;
-import com.sideproject.sideproject.customer.domain.User;
+import com.sideproject.sideproject.user.domain.User;
 import com.sideproject.sideproject.post.domain.Post;
 import lombok.*;
 
