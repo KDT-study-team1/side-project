@@ -1,6 +1,6 @@
 package com.sideproject.sideproject.search.dto;
 
-import com.sideproject.sideproject.customer.domain.User;
+import com.sideproject.sideproject.user.domain.User;
 import lombok.Builder;
 import lombok.Getter;
 
