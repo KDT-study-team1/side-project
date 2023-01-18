@@ -1,5 +1,6 @@
 package com.sideproject.sideproject.search.controller;
 
+import com.sideproject.sideproject.global.response.ErrorResponseDTO;
 import com.sideproject.sideproject.global.response.ResponseDTO;
 import com.sideproject.sideproject.search.dto.SearchSocialResponseDTO;
 import com.sideproject.sideproject.search.service.Impl.SearchSocialServiceImpl;
@@ -25,17 +26,17 @@ public class SearchSocialController {
     public ResponseDTO<?> doSearchSocialByTag(@PathVariable Long tagNum) {
         List<SearchSocialResponseDTO> list = service.selectSocialByTag(tagNum);
 
-        ResponseDTO<List<SearchSocialResponseDTO>> responseDTO;
+        ResponseDTO<?> responseDTO;
         try {
             if (Objects.isNull(list) || list.isEmpty()) {
-                responseDTO = new ResponseDTO<>(500, "failed", "응답 실패");
+                ErrorResponseDTO errorResponseDTO= new ErrorResponseDTO(500, "응답 성공같은 실패?");
+                responseDTO = new ResponseDTO<>(errorResponseDTO);
             } else {
-                responseDTO = new ResponseDTO<>(200, "success", "응답 성공");
+                responseDTO = new ResponseDTO<>(list);
             }
         } catch (Exception e) {
             return null;
         }
-        responseDTO.setData(list);
 
         return responseDTO;
 
