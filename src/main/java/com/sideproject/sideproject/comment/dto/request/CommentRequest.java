@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
 @Getter
@@ -18,6 +20,7 @@ import javax.validation.constraints.Size;
 @Schema(description = "댓글 작성 시 입력받는 DTO")
 public class CommentRequest {
     @Schema(description = "댓글 달 post Id", defaultValue = "1")
+    @NotNull @Positive
     Long postId;
     @Schema(description = "댓글 내용", defaultValue = "유익해요!")
     @NotBlank
