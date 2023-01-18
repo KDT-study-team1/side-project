@@ -2,9 +2,9 @@ package com.sideproject.sideproject.user.controller;
 
 import com.sideproject.sideproject.user.dto.UserRequestDTO;
 import com.sideproject.sideproject.user.dto.UserResponseDTO;
-import com.sideproject.sideproject.user.service.UserServiceImpl;
 import com.sideproject.sideproject.global.response.ResponseDTO;
 
+import com.sideproject.sideproject.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "user", description = "사용자 API")
 @Slf4j
 public class UserController {
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
     @PostMapping("users")
     @ResponseStatus(HttpStatus.OK)
@@ -34,7 +34,7 @@ public class UserController {
     public ResponseDTO<?> signup(@RequestBody final UserRequestDTO userRequestDTO){
         UserResponseDTO userResponseDTO = userService.signup(userRequestDTO);
 
-        return new ResponseDTO<>(200, "success", "회원 가입 성공", userResponseDTO);
+        return new ResponseDTO<>(userResponseDTO);
     }
 
 
