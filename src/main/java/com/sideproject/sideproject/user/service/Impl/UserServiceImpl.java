@@ -34,6 +34,10 @@ public class UserServiceImpl implements UserService {
         return new UserResponseDTO(userRepository.save(user));
     }
 
+    /**
+     * 이메일 중복 여부 체크
+     * @param email : 사용자 이메일
+     */
     public void toVerifyDuplicate(String email){
         if(userRepository.findByEmail(email).isPresent()){
             throw new UserException(UserExceptionType.DUPLICATE_EMAIL);
