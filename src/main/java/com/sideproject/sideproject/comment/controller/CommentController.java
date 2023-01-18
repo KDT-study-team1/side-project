@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Set;
 
@@ -30,7 +31,7 @@ public class CommentController {
 
     @PostMapping("")
     @Operation(summary = "댓글 작성", description = "댓글 저장 api")
-    public ResponseDTO<?> saveComment(@RequestBody CommentRequest commentRequest) {
+    public ResponseDTO<?> saveComment(@RequestBody @Valid CommentRequest commentRequest) {
         CommentUserDTO commentUserDTO = CommentUserDTO.builder()
                 .id(1L)
                 .nickname("유저1")
@@ -51,7 +52,7 @@ public class CommentController {
 
     @PutMapping("/{commentId}")
     @Operation(summary = "댓글 수정", description = "댓글 수정 api")
-    public ResponseDTO<?> updateComment(@PathVariable Long commentId, @RequestBody CommentRequest commentRequest) {
+    public ResponseDTO<?> updateComment(@PathVariable Long commentId, @Valid @RequestBody CommentRequest commentRequest) {
         Long userId = 1L; //로그인 구현전 임시
         commentService.updateComment(commentId, userId, commentRequest);
         return ResponseDTO.empty();
