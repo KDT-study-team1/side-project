@@ -1,7 +1,7 @@
 package com.sideproject.sideproject.post.domain;
 
 import com.sideproject.sideproject.comment.domain.Comment;
-import com.sideproject.sideproject.customer.domain.User;
+import com.sideproject.sideproject.user.domain.User;
 import com.sun.istack.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;

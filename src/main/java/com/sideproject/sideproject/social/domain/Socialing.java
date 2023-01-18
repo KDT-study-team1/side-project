@@ -1,6 +1,6 @@
 package com.sideproject.sideproject.social.domain;
 
-import com.sideproject.sideproject.customer.domain.User;
+import com.sideproject.sideproject.user.domain.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

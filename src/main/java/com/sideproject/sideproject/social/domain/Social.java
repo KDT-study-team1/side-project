@@ -1,7 +1,7 @@
 package com.sideproject.sideproject.social.domain;
 
 import com.sideproject.sideproject.comment.domain.Comment;
-import com.sideproject.sideproject.customer.domain.User;
+import com.sideproject.sideproject.user.domain.User;
 import com.sideproject.sideproject.post.domain.Post;
 import com.sideproject.sideproject.post.domain.PostImage;
 import com.sideproject.sideproject.tag.domain.Category;

@@ -1,6 +1,5 @@
-package com.sideproject.sideproject.customer.domain;
+package com.sideproject.sideproject.user.domain;
 
-import com.sideproject.sideproject.customer.dto.UserRequestDTO;
 import com.sun.istack.NotNull;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
