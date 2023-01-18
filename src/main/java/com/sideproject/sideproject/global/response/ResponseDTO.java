@@ -1,11 +1,16 @@
 package com.sideproject.sideproject.global.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
 public class ResponseDTO<T> {
 
     @Schema(name = "Http code", example = "200")

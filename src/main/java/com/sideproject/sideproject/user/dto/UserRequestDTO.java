@@ -4,11 +4,13 @@ import com.sideproject.sideproject.user.domain.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.ToString;
 
 @Schema(description = "회원 가입시 입력받는 DTO")
 @Builder
 @ToString
+@Getter
 public class UserRequestDTO {
     @Schema(description = "사용자 이메일", defaultValue = "test@email.com")
     private String email;
