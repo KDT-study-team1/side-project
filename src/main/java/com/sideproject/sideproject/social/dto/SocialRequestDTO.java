@@ -12,6 +12,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Schema(description = "모임 게시글 생성시 입력받는 DTO")
 @Getter
@@ -54,10 +55,10 @@ public class SocialRequestDTO {
     @Schema(description = "연락수단", defaultValue = "010-1234-5678")
     private String contact;
 
-    public Social toEntity() {
+    public Social toEntity(User user) {
         return Social.builder()
-                .user(this.user)
-                .images(this.images)
+                .user(user)
+                .images(this.images.stream().map(image -> new PostImage(image.getImagePath())).collect(Collectors.toList()))
                 .contents(this.contents)
                 .regionCode(this.regionCode)
                 .dongCode(this.dongCode)
