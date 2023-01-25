@@ -4,6 +4,8 @@ import com.sideproject.sideproject.comment.domain.Comment;
 import com.sideproject.sideproject.comment.dto.CommentDTO;
 import com.sideproject.sideproject.comment.dto.request.CommentRequest;
 import com.sideproject.sideproject.comment.dto.response.CommentResponse;
+import com.sideproject.sideproject.comment.exception.GlobalException;
+import com.sideproject.sideproject.comment.exception.GlobalExceptionType;
 import com.sideproject.sideproject.comment.repository.CommentRepository;
 import com.sideproject.sideproject.post.domain.Post;
 import com.sideproject.sideproject.post.repository.PostRepository;
@@ -45,16 +47,16 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public String saveComment(CommentDTO dto) {
         try {
-            Post post = postRepository.findById(dto.getPostId()).orElse(null);
-            User user = userRepository.findById(dto.getCommentUserDTO().getId()).orElse(null);
+            Post post = postRepository.findById(dto.getPostId()).orElseThrow();
+            User user = userRepository.findById(dto.getCommentUserDTO().getId()).orElseThrow();
 
             Comment comment = dto.toEntity(user, post, dto.getContent(), dto.getParentCommentId());
             commentRepository.save(comment);
+            return "success";
 
         } catch (Exception e) {
-            return "failed";
+            throw new GlobalException(GlobalExceptionType.DATA_ACCESS_ERROR);
         }
-        return "success";
     }
 
     @Override
@@ -62,13 +64,10 @@ public class CommentServiceImpl implements CommentService {
     public String deleteComment(Long commentId, Long userId) {
         try {
             Comment comment = commentRepository.findByIdAndUser_Id(commentId, userId).orElseThrow(Exception::new);
-            if (comment == null) {
-                return "failed";
-            }
             comment.delete();
             return "success";
         } catch (Exception e) {
-            return "failed";
+            throw new GlobalException(GlobalExceptionType.DATA_ACCESS_ERROR);
         }
     }
 
@@ -77,13 +76,10 @@ public class CommentServiceImpl implements CommentService {
     public String updateComment(Long commentId, Long userId, CommentRequest request) {
         try {
             Comment comment = commentRepository.findByIdAndUser_Id(commentId, userId).orElseThrow(Exception::new);
-            if (comment == null) {
-                return "failed";
-            }
             comment.update(request.getContent());
             return "success";
         } catch (Exception e) {
-            return "failed";
+            throw new GlobalException(GlobalExceptionType.DATA_ACCESS_ERROR);
         }
     }
 
