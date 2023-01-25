@@ -55,7 +55,7 @@ public class SocialServiceImpl implements SocialService {
                 .collect(Collectors.toList());
     }
 
-    public Long socialUsertoDTO(User user) {
+    public Long userToUserId(User user) {
         return user.getId();
     }
 
