@@ -44,4 +44,11 @@ public class LikeService {
             return false;
         }
     }
+
+    public Integer displayLikes(Long postId) {
+
+        Post post = postRepository.findById(postId).orElseThrow(() -> new PostException(PostExceptionType.NON_EXISTENT_POST));
+
+        return post.getLikes();
+    }
 }
