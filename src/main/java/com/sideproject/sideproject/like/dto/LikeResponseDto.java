@@ -2,12 +2,14 @@ package com.sideproject.sideproject.like.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
+@Builder
 @Schema(description = "좋아요 버튼 실행 시 response DTO")
-public class LikeDto {
+public class LikeResponseDto {
     @Schema(description = "좋아요가 남겨진 Post Id")
     private Long postId;
     @Schema(description = "좋아요를 누른 User Id")
