@@ -68,4 +68,8 @@ public abstract class Post extends TimeAuditingEntity {
         this.dongName = dongName;
         this.likes = likes;
     }
+
+    public void updateLikes(int likes){
+        this.likes = likes;
+    }
 }
