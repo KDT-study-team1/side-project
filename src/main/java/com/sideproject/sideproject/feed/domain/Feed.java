@@ -18,7 +18,4 @@ public class Feed extends Post {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "social_id")
     private Social social; //작성자가 참여 중인 모임 연결
-
-    @Transient
-    private boolean liked;
 }
