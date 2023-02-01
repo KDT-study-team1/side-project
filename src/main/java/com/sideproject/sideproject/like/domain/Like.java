@@ -28,12 +28,12 @@ public class Like {
 
 
     @Builder
-    private Like(User user, Post post){
+    private Like(User user, Post post) {
         this.user = user;
         this.post = post;
     }
 
-    public static Like createLike(User user, Post post){
+    public static Like createLike(User user, Post post) {
         Like like = Like.builder().user(user).post(post).build();
         return like;
     }
