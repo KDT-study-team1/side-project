@@ -17,8 +17,8 @@ public class LikeController {
     private final LikeService likeService;
 
     @GetMapping("/{postId}")
-    public ResponseDTO displayLikes(@PathVariable Long postId) {
-        return new ResponseDTO(likeService.displayLikes(postId));
+    public ResponseDTO getLikes(@PathVariable Long postId) {
+        return new ResponseDTO<Integer>(likeService.displayLikes(postId));
     }
 
     @PostMapping("/{postId}")
@@ -34,6 +34,6 @@ public class LikeController {
                 .isLiked(isLiked)
                 .build();
 
-        return new ResponseDTO(likeResponseDto);
+        return new ResponseDTO<LikeResponseDto>(likeResponseDto);
     }
 }
