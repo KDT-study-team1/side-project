@@ -7,12 +7,17 @@ import com.sideproject.sideproject.post.exception.PostException;
 import com.sideproject.sideproject.post.exception.PostExceptionType;
 import com.sideproject.sideproject.post.repository.PostRepository;
 import com.sideproject.sideproject.user.domain.User;
+import com.sideproject.sideproject.user.dto.UserResponseDTO;
 import com.sideproject.sideproject.user.exception.UserException;
 import com.sideproject.sideproject.user.exception.UserExceptionType;
 import com.sideproject.sideproject.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 @Transactional(readOnly = true)
@@ -43,5 +48,22 @@ public class LikeService {
             post.updateLikes(post.getLikes() - 1);
             return false;
         }
+    }
+
+    public Integer displayLikes(Long postId) {
+
+        Post post = postRepository.findById(postId).orElseThrow(() -> new PostException(PostExceptionType.NON_EXISTENT_POST));
+
+        return post.getLikes();
+    }
+
+    public List<UserResponseDTO> displayLikedUsers(Long postId) {
+        return likeRepository.findAllByPostId(postId)
+                .stream()
+                .map(Like::getUser)
+                .map(UserResponseDTO::new)
+                //일단은 USerResponseDTO로 반환하고
+                //나중에 email이나 id만 반환하는 DTO를 새로 만드는 방식도 고려
+                .collect(toList());
     }
 }
