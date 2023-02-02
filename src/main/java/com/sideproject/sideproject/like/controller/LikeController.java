@@ -3,10 +3,13 @@ package com.sideproject.sideproject.like.controller;
 import com.sideproject.sideproject.global.response.ResponseDTO;
 import com.sideproject.sideproject.like.dto.LikeResponseDto;
 import com.sideproject.sideproject.like.service.LikeService;
+import com.sideproject.sideproject.user.dto.UserResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,5 +38,13 @@ public class LikeController {
                 .build();
 
         return new ResponseDTO<LikeResponseDto>(likeResponseDto);
+    }
+
+    @GetMapping("/{postId}/liked-users")
+    public ResponseDTO getLikedUsers(@PathVariable Long postId) {
+        if (likeService.displayLikes(postId) > 0) {
+            return new ResponseDTO<List<UserResponseDTO>>(likeService.displayLikedUsers(postId));
+        } else return ResponseDTO.empty();
+        //사실 likes가 1 이상이면 exception handler에 걸려서 else문은 통과하지 않는데 이부분을 어떻게 해야될지 고민
     }
 }
