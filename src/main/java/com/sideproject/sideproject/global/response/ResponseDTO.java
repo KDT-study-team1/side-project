@@ -18,7 +18,7 @@ public class ResponseDTO<T> {
     @Schema(name = "result message", example = "응답 성공")
     private String message;
 
-    @Schema(name = "result date", example = "{name = '철수김', age = '25세'}")
+    @Schema(name = "result data", example = "{name = '철수김', age = '25세'}")
     private T data;
 
     public ResponseDTO(T data) {
