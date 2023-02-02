@@ -20,6 +20,7 @@ public class LikeController {
     private final LikeService likeService;
 
     @GetMapping("/{postId}")
+    @Operation(summary = "좋아요 개수", description = "해당 포스트의 좋아요 개수를 나타낸다")
     public ResponseDTO getLikes(@PathVariable Long postId) {
         return new ResponseDTO<Integer>(likeService.displayLikes(postId));
     }
@@ -41,6 +42,7 @@ public class LikeController {
     }
 
     @GetMapping("/{postId}/liked-users")
+    @Operation(summary = "좋아요 누른 유저들", description = "해당 포스트에 좋아요를 누른 유저들의 정보를 나타낸다")
     public ResponseDTO getLikedUsers(@PathVariable Long postId) {
         if (likeService.displayLikes(postId) > 0) {
             return new ResponseDTO<List<UserResponseDTO>>(likeService.displayLikedUsers(postId));
