@@ -45,4 +45,11 @@ public class FeedController {
         return ResponseDTO.empty();
     }
 
+    @GetMapping("/me")
+    public ResponseDTO<?> userFeeds(){
+        String email="a@naver.com";
+        List<FeedResponse> feedResponses = feedService.userFeeds(email);
+        return new ResponseDTO<>(feedResponses);
+    }
+
 }

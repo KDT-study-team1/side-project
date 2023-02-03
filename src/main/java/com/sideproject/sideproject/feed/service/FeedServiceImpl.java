@@ -77,7 +77,10 @@ public class FeedServiceImpl implements FeedService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<FeedResponse> userFeeds(String email) {
-        return null;
+        return feedRepository.findAllByUserEmail(email).stream()
+                .map(FeedResponse::from)
+                .collect(Collectors.toList());
     }
 }
