@@ -69,11 +69,12 @@ public class FeedServiceImpl implements FeedService {
     @Override
     @Transactional(readOnly = true)
     public FeedResponse selectFeed(Long postId) {
-        Feed feed = feedRepository.findById(postId).orElse(null);
-        if (feed == null) {
-            return null;
+        try {
+            Feed feed = feedRepository.findById(postId).orElseThrow();
+            return FeedResponse.from(feed);
+        }catch (Exception e){
+            throw new GlobalException(GlobalExceptionType.DATA_ACCESS_ERROR);
         }
-        return FeedResponse.from(feed);
     }
 
     @Override
