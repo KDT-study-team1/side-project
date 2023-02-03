@@ -2,6 +2,7 @@ package com.sideproject.sideproject.feed.service;
 
 import com.sideproject.sideproject.comment.exception.GlobalException;
 import com.sideproject.sideproject.comment.exception.GlobalExceptionType;
+import com.sideproject.sideproject.feed.domain.Feed;
 import com.sideproject.sideproject.feed.dto.request.FeedRequest;
 import com.sideproject.sideproject.feed.dto.response.FeedResponse;
 import com.sideproject.sideproject.feed.repository.FeedRepository;
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class FeedServiceImpl implements FeedService{
+public class FeedServiceImpl implements FeedService {
 
     private final FeedRepository feedRepository;
 
@@ -32,9 +33,9 @@ public class FeedServiceImpl implements FeedService{
         try {
             User user = userRepository.findByEmail(email).orElse(null);
             Social social = socialRepository.findById(feedRequest.getSocialId()).orElse(null);
-            feedRepository.save(feedRequest.toEntity(user,social));
+            feedRepository.save(feedRequest.toEntity(user, social));
             return "success";
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new GlobalException(GlobalExceptionType.DATA_ACCESS_ERROR);
         }
     }
@@ -46,11 +47,19 @@ public class FeedServiceImpl implements FeedService{
     }
 
     @Override
-    public String updateFeed(Long postId) {
-        return null;
+    @Transactional
+    public String updateFeed(Long postId, String email, FeedRequest feedRequest) {
+        try {
+            Feed feed = feedRepository.findByIdAndUserEmail(postId, email).orElseThrow();
+            feed.updateContents(feedRequest.getContent());
+            return "success";
+        } catch (Exception e) {
+            throw new GlobalException(GlobalExceptionType.DATA_ACCESS_ERROR);
+        }
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<FeedResponse> selectFeeds() {
         return feedRepository.findAll().stream()
                 .map(FeedResponse::from)
@@ -58,12 +67,17 @@ public class FeedServiceImpl implements FeedService{
     }
 
     @Override
-    public FeedResponse selectFeed(Long PostId) {
-        return null;
+    @Transactional(readOnly = true)
+    public FeedResponse selectFeed(Long postId) {
+        Feed feed = feedRepository.findById(postId).orElse(null);
+        if (feed == null) {
+            return null;
+        }
+        return FeedResponse.from(feed);
     }
 
     @Override
-    public List<FeedResponse> userFeeds() {
+    public List<FeedResponse> userFeeds(String email) {
         return null;
     }
 }

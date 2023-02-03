@@ -17,18 +17,32 @@ public class FeedController {
     private final FeedServiceImpl feedService;
 
     @PostMapping("")
-    public ResponseDTO<?> createFeed(@RequestBody FeedRequest feedRequest){
+    public ResponseDTO<?> createFeed(@RequestBody FeedRequest feedRequest) {
         String email = "a@naver.com";
-        feedService.createFeed(feedRequest,email);
+        feedService.createFeed(feedRequest, email);
         return ResponseDTO.empty();
     }
 
     @GetMapping("")
-    public ResponseDTO<List<FeedResponse>> selectFeeds(String filter){
+    public ResponseDTO<List<FeedResponse>> selectFeeds(String filter) {
         List<FeedResponse> feedResponses = feedService.selectFeeds();
         return new ResponseDTO<>(feedResponses);
     }
 
+    @GetMapping("/{postId}")
+    public ResponseDTO<?> selectFeed(@PathVariable Long postId) {
+        FeedResponse feedResponse = feedService.selectFeed(postId);
+        if (feedResponse == null) {
+            return ResponseDTO.empty();
+        }
+        return new ResponseDTO<>(feedResponse);
+    }
 
+    @PutMapping("/{postId}")
+    public ResponseDTO<?> updateFeed(@PathVariable Long postId, @RequestBody FeedRequest feedRequest) {
+        String email = "a@naver.com";
+        feedService.updateFeed(postId, email, feedRequest);
+        return ResponseDTO.empty();
+    }
 
 }
