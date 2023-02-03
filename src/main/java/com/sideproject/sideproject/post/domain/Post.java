@@ -73,8 +73,13 @@ public abstract class Post extends TimeAuditingEntity {
         this.likes = likes;
     }
 
-    public void setPostImages(List<PostImage> postImages) {
+    public void setPostImages(List<PostImage> postImages){
         this.images = postImages;
         postImages.forEach(postImage -> postImage.setPost(this));
     }
+
+    public void updateContents(String contents) {
+        this.contents = contents;
+    }
+
 }
