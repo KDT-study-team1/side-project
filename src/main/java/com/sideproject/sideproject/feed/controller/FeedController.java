@@ -1,13 +1,13 @@
 package com.sideproject.sideproject.feed.controller;
 
 import com.sideproject.sideproject.feed.dto.request.FeedRequest;
+import com.sideproject.sideproject.feed.dto.response.FeedResponse;
 import com.sideproject.sideproject.feed.service.FeedServiceImpl;
 import com.sideproject.sideproject.global.response.ResponseDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/feed")
@@ -23,6 +23,11 @@ public class FeedController {
         return ResponseDTO.empty();
     }
 
+    @GetMapping("")
+    public ResponseDTO<List<FeedResponse>> selectFeeds(String filter){
+        List<FeedResponse> feedResponses = feedService.selectFeeds();
+        return new ResponseDTO<>(feedResponses);
+    }
 
 
 

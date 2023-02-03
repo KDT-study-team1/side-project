@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -51,7 +52,9 @@ public class FeedServiceImpl implements FeedService{
 
     @Override
     public List<FeedResponse> selectFeeds() {
-        return null;
+        return feedRepository.findAll().stream()
+                .map(FeedResponse::from)
+                .collect(Collectors.toList());
     }
 
     @Override
