@@ -15,7 +15,7 @@ public class FeedUserDTO {
     private String dongName;
     private String profile;
 
-    public static FeedUserDTO from(User user){
+    public static FeedUserDTO from(User user) {
         return FeedUserDTO.builder()
                 .id(user.getId())
                 .nickname(user.getNickname())

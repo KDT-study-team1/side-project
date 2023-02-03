@@ -16,7 +16,7 @@ public class FeedSocialDTO {
     private String title;
     private LocalDateTime createDate;
 
-    public static FeedSocialDTO from(Social social){
+    public static FeedSocialDTO from(Social social) {
         return FeedSocialDTO.builder()
                 .id(social.getId())
                 .dongName(social.getDongName())

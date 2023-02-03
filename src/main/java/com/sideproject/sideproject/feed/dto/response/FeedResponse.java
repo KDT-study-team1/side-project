@@ -20,7 +20,7 @@ public class FeedResponse {
     private List<String> imagePath;
     private String content;
 
-    public static FeedResponse from(Feed feed){
+    public static FeedResponse from(Feed feed) {
         return FeedResponse.builder()
                 .id(feed.getId())
                 .feedUserDTO(FeedUserDTO.from(feed.getUser()))
