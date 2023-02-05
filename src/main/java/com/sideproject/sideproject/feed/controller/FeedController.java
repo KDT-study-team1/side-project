@@ -25,7 +25,7 @@ public class FeedController {
 
     @GetMapping("")
     public ResponseDTO<List<FeedResponse>> selectFeeds(String filter) {
-        List<FeedResponse> feedResponses = feedService.selectFeeds();
+        List<FeedResponse> feedResponses = feedService.selectFeeds(filter);
         return new ResponseDTO<>(feedResponses);
     }
 

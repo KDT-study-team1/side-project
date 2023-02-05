@@ -11,6 +11,7 @@ import com.sideproject.sideproject.social.repository.SocialRepository;
 import com.sideproject.sideproject.user.domain.User;
 import com.sideproject.sideproject.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,10 +61,17 @@ public class FeedServiceImpl implements FeedService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<FeedResponse> selectFeeds() {
-        return feedRepository.findAll().stream()
-                .map(FeedResponse::from)
-                .collect(Collectors.toList());
+    public List<FeedResponse> selectFeeds(String filter) {
+        if (filter.equals("likes") || filter.equals("createDate")) {
+            return feedRepository.findAll(Sort.by(Sort.Direction.DESC, filter)).stream()
+                    .map(FeedResponse::from)
+                    .collect(Collectors.toList());
+
+        } else {
+            return feedRepository.findAll(Sort.by(Sort.Direction.DESC, "createDate")).stream()
+                    .map(FeedResponse::from)
+                    .collect(Collectors.toList());
+        }
     }
 
     @Override
@@ -72,7 +80,7 @@ public class FeedServiceImpl implements FeedService {
         try {
             Feed feed = feedRepository.findById(postId).orElseThrow();
             return FeedResponse.from(feed);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new GlobalException(GlobalExceptionType.DATA_ACCESS_ERROR);
         }
     }

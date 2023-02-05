@@ -13,7 +13,7 @@ public interface FeedService {
 
     String updateFeed(Long postId, String email, FeedRequest feedRequest);
 
-    List<FeedResponse> selectFeeds();
+    List<FeedResponse> selectFeeds(String filter);
 
     FeedResponse selectFeed(Long PostId);
 
