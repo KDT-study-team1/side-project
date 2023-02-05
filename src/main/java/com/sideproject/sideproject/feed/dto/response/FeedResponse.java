@@ -7,6 +7,7 @@ import com.sideproject.sideproject.post.domain.PostImage;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +20,8 @@ public class FeedResponse {
     private FeedSocialDTO feedSocialDTO;
     private List<String> imagePath;
     private String content;
+    private LocalDateTime createDate;
+    private int likes;
 
     public static FeedResponse from(Feed feed) {
         return FeedResponse.builder()
@@ -29,6 +32,8 @@ public class FeedResponse {
                         .map(PostImage::getImagePath)
                         .collect(Collectors.toList()))
                 .content(feed.getContents())
+                .createDate(feed.getCreateDate())
+                .likes(feed.getLikes())
                 .build();
     }
 
