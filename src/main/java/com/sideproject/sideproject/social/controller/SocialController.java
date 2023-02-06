@@ -21,15 +21,17 @@ public class SocialController {
 
     @PostMapping("/social")
     @Operation(summary = "모임 게시글 생성", description = "모임 게시글 생성 api")
-    public String createSocial(SocialRequestDTO socialRequestDTO) {
-        return socialService.createSocial(socialRequestDTO);
+    public ResponseDTO<?> createSocial(@RequestBody SocialRequestDTO socialRequestDTO) {
+        String email = "test@email.com"; // 임시
+        SocialResponseDTO socialResponseDTO = socialService.createSocial(email, socialRequestDTO);
+
+        return new ResponseDTO<>(socialResponseDTO);
     }
 
     @GetMapping("/socials")
     @Operation(summary = "모임 게시글 전체 조회", description = "모임 게시글 전체 조회 api")
     public ResponseDTO<?> socials() {
         List<SocialResponseDTO> socials = socialService.socials();
-        System.out.println("controller : " + socials.toString());
 
         return new ResponseDTO<>(socials);
     }
