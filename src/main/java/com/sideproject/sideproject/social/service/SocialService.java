@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface SocialService {
 
-    String createSocial(SocialRequestDTO socialRequestDTO);
+    SocialResponseDTO createSocial(String email, SocialRequestDTO socialRequestDTO);
 
     List<SocialResponseDTO> socials();
 }

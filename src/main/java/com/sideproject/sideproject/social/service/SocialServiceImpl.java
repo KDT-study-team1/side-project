@@ -9,6 +9,7 @@ import com.sideproject.sideproject.user.domain.User;
 import com.sideproject.sideproject.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,16 +19,33 @@ import java.util.stream.Collectors;
 public class SocialServiceImpl implements SocialService {
 
     private final SocialRepository repo;
+    private final UserRepository userRepository;
 
+    @Transactional
     @Override
-    public String createSocial(SocialRequestDTO socialRequestDTO) {
-        if (socialRequestDTO != null) {
-            repo.save(socialRequestDTO.toEntity());
+    public SocialResponseDTO createSocial(String email, SocialRequestDTO socialRequestDTO) {
+        User user = userRepository.findByEmail(email).orElse(null);
+        Social social = repo.save(socialRequestDTO.toEntity(user));
 
-            return "success";
-        }
-
-        return "failed";
+        return SocialResponseDTO.builder()
+                .userId(userToUserId(social.getUser()))
+                .images(social.getImages())
+                .comments(social.getComments())
+                .contact(social.getContact())
+                .regionCode(social.getRegionCode())
+                .dongCode(social.getDongCode())
+                .dongName(social.getDongName())
+                .likes(social.getLikes())
+                .categoryName(categoryToCategoryName(social.getCategory()))
+                .socialTags(social.getSocialTags())
+                .status(social.getStatus())
+                .title(social.getTitle())
+                .hits(social.getHits())
+                .startDate(social.getStartDate())
+                .endDate(social.getEndDate())
+                .limitedNums(social.getLimitedNums())
+                .contact(social.getContact())
+                .build();
     }
 
     @Override
@@ -37,7 +55,7 @@ public class SocialServiceImpl implements SocialService {
                         .userId(userToUserId(social.getUser()))
                         .images(social.getImages())
                         .comments(social.getComments())
-                        .contact(social.getContact())
+                        .contents(social.getContents())
                         .regionCode(social.getRegionCode())
                         .dongCode(social.getDongCode())
                         .dongName(social.getDongName())
