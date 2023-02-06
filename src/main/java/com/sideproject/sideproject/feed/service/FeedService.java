@@ -1,22 +1,22 @@
 package com.sideproject.sideproject.feed.service;
 
-import com.sideproject.sideproject.feed.dto.FeedDTO;
+import com.sideproject.sideproject.feed.dto.request.FeedRequest;
 import com.sideproject.sideproject.feed.dto.response.FeedResponse;
 
 import java.util.List;
 
 public interface FeedService {
 
-    String createFeed(FeedDTO feedDTO);
+    String createFeed(FeedRequest feedRequest, String email);
 
-    String deleteFeed(Long postId);
+    String deleteFeed(Long postId, String email);
 
-    String updateFeed(Long postId);
+    String updateFeed(Long postId, String email, FeedRequest feedRequest);
 
-    List<FeedResponse> selectFeeds();
+    List<FeedResponse> selectFeeds(String filter);
 
     FeedResponse selectFeed(Long PostId);
 
-    List<FeedResponse> userFeeds();
+    List<FeedResponse> userFeeds(String email);
 
 }
