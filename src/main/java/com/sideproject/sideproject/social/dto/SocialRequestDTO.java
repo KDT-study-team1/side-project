@@ -2,6 +2,7 @@ package com.sideproject.sideproject.social.dto;
 
 import com.sideproject.sideproject.post.domain.PostImage;
 import com.sideproject.sideproject.social.domain.Social;
+import com.sideproject.sideproject.social.domain.SocialStatus;
 import com.sideproject.sideproject.tag.domain.Category;
 import com.sideproject.sideproject.tag.domain.SocialTag;
 import com.sideproject.sideproject.user.domain.User;
@@ -40,14 +41,23 @@ public class SocialRequestDTO {
     @Schema(description = "소셜 태그", defaultValue = "null")
     private List<SocialTag> socialTags = new ArrayList<>();
 
+    @Schema(description = "모임 상태", defaultValue = "AVAILABLE")
+    private SocialStatus status;
+
     @Schema(description = "모임 게시글 제목", defaultValue = "같이 놀사람")
     private String title;
+
+    @Schema(description = "모임 게시글 조회수", defaultValue = "0")
+    private Integer hits;
 
     @Schema(description = "시작 날짜", defaultValue = "yyyy-MM-dd")
     private LocalDateTime startDate;
 
     @Schema(description = "종료 날짜", defaultValue = "yyyy-MM-dd")
     private LocalDateTime endDate;
+
+    @Schema(description = "현재 모임에 참여한 사용자 수", defaultValue = "1")
+    private Integer currentNums;
 
     @Schema(description = "모임 최대 참가수", defaultValue = "5")
     private Integer limitedNums;
@@ -56,20 +66,28 @@ public class SocialRequestDTO {
     private String contact;
 
     public Social toEntity(User user) {
-        return Social.builder()
+        Social social = Social.builder()
                 .user(user)
-                .images(this.images.stream().map(image -> new PostImage(image.getImagePath())).collect(Collectors.toList()))
                 .contents(this.contents)
                 .regionCode(this.regionCode)
                 .dongCode(this.dongCode)
                 .dongName(this.dongName)
                 .category(this.category)
                 .socialTags(this.socialTags)
+                .status(this.status)
                 .title(this.title)
+                .hits(this.hits)
                 .startDate(this.startDate)
                 .endDate(this.endDate)
+                .currentNums(this.currentNums)
                 .limitedNums(this.limitedNums)
                 .contact(this.contact)
                 .build();
+
+        social.setPostImages(this.getImages().stream()
+                .map(image -> new PostImage(image.getImagePath()))
+                .collect(Collectors.toList()));
+
+        return social;
     }
 }
