@@ -29,9 +29,6 @@ public class SocialServiceImpl implements SocialService {
 
         return SocialResponseDTO.builder()
                 .userId(userToUserId(social.getUser()))
-                .images(social.getImages())
-                .comments(social.getComments())
-                .contact(social.getContact())
                 .regionCode(social.getRegionCode())
                 .dongCode(social.getDongCode())
                 .dongName(social.getDongName())
@@ -40,11 +37,9 @@ public class SocialServiceImpl implements SocialService {
                 .socialTags(social.getSocialTags())
                 .status(social.getStatus())
                 .title(social.getTitle())
-                .hits(social.getHits())
                 .startDate(social.getStartDate())
                 .endDate(social.getEndDate())
                 .limitedNums(social.getLimitedNums())
-                .contact(social.getContact())
                 .build();
     }
 
@@ -53,9 +48,6 @@ public class SocialServiceImpl implements SocialService {
         return repo.findAll().stream()
                 .map(social -> SocialResponseDTO.builder()
                         .userId(userToUserId(social.getUser()))
-                        .images(social.getImages())
-                        .comments(social.getComments())
-                        .contents(social.getContents())
                         .regionCode(social.getRegionCode())
                         .dongCode(social.getDongCode())
                         .dongName(social.getDongName())
@@ -64,11 +56,9 @@ public class SocialServiceImpl implements SocialService {
                         .socialTags(social.getSocialTags())
                         .status(social.getStatus())
                         .title(social.getTitle())
-                        .hits(social.getHits())
                         .startDate(social.getStartDate())
                         .endDate(social.getEndDate())
                         .limitedNums(social.getLimitedNums())
-                        .contact(social.getContact())
                         .build())
                 .collect(Collectors.toList());
     }
