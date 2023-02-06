@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class SocialResponseDTO {
+public class SocialDetailResponseDTO {
 
     private Long userId;
 
@@ -49,10 +49,10 @@ public class SocialResponseDTO {
     private String contact;
 
     @Builder
-    public SocialResponseDTO(Long userId, List<PostImage> images, List<Comment> comments, String contents,
-                             Integer regionCode, Long dongCode, String dongName, int likes, String categoryName,
-                             List<SocialTag> socialTags, SocialStatus status, String title, Integer hits,
-                             LocalDateTime startDate, LocalDateTime endDate, Integer limitedNums, String contact) {
+    public SocialDetailResponseDTO(Long userId, List<PostImage> images, List<Comment> comments, String contents,
+                                   Integer regionCode, Long dongCode, String dongName, int likes, String categoryName,
+                                   List<SocialTag> socialTags, SocialStatus status, String title, Integer hits,
+                                   LocalDateTime startDate, LocalDateTime endDate, Integer limitedNums, String contact) {
         this.userId = userId;
         this.images = images;
         this.comments = comments;
