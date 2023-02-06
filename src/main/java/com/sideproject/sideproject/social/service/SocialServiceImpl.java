@@ -1,6 +1,7 @@
 package com.sideproject.sideproject.social.service;
 
 import com.sideproject.sideproject.social.domain.Social;
+import com.sideproject.sideproject.social.dto.SocialDetailResponseDTO;
 import com.sideproject.sideproject.social.dto.SocialRequestDTO;
 import com.sideproject.sideproject.social.dto.SocialResponseDTO;
 import com.sideproject.sideproject.social.repository.SocialRepository;
@@ -61,6 +62,31 @@ public class SocialServiceImpl implements SocialService {
                         .limitedNums(social.getLimitedNums())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public SocialDetailResponseDTO socialDetail(Long socialId) {
+        Social social = repo.findById(socialId).orElse(null);
+
+        return SocialDetailResponseDTO.builder()
+                .userId(userToUserId(social.getUser()))
+                .images(social.getImages())
+                .comments(social.getComments())
+                .contents(social.getContents())
+                .regionCode(social.getRegionCode())
+                .dongCode(social.getDongCode())
+                .dongName(social.getDongName())
+                .likes(social.getLikes())
+                .categoryName(categoryToCategoryName(social.getCategory()))
+                .socialTags(social.getSocialTags())
+                .status(social.getStatus())
+                .title(social.getTitle())
+                .hits(social.getHits())
+                .startDate(social.getStartDate())
+                .endDate(social.getEndDate())
+                .limitedNums(social.getLimitedNums())
+                .contact(social.getContact())
+                .build();
     }
 
     public Long userToUserId(User user) {
