@@ -4,6 +4,7 @@ import com.sideproject.sideproject.comment.domain.Comment;
 import com.sideproject.sideproject.post.domain.PostImage;
 import com.sideproject.sideproject.social.domain.SocialStatus;
 import com.sideproject.sideproject.tag.domain.SocialTag;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
 
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@Schema(description = "모임 게시글 상세 정보 응답 DTO")
 public class SocialDetailResponseDTO {
 
     private Long userId;
