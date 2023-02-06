@@ -1,5 +1,6 @@
 package com.sideproject.sideproject.social.service;
 
+import com.sideproject.sideproject.social.dto.SocialDetailResponseDTO;
 import com.sideproject.sideproject.social.dto.SocialRequestDTO;
 import com.sideproject.sideproject.social.dto.SocialResponseDTO;
 
@@ -10,4 +11,6 @@ public interface SocialService {
     SocialResponseDTO createSocial(String email, SocialRequestDTO socialRequestDTO);
 
     List<SocialResponseDTO> socials();
+
+    SocialDetailResponseDTO socialDetail(Long socialId);
 }
