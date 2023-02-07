@@ -41,4 +41,25 @@ public class SearchSocialController {
         return responseDTO;
 
     }
+
+    @GetMapping("/social/search/keyword/{keyword}")
+    @Operation(summary = "키워드 검색 기능", description = "모임 게시글 키워드 검색 api")
+    public ResponseDTO<?> doSearchSocialByKeywords(@PathVariable String keyword) {
+
+        List<SearchSocialResponseDTO> list = service.selectSocialByKeyword(keyword);
+
+        ResponseDTO<?> responseDTO;
+        try {
+            if (Objects.isNull(list) || list.isEmpty()) {
+                ErrorResponseDTO errorResponseDTO= new ErrorResponseDTO(500, "응답 성공같은 실패?");
+                responseDTO = new ResponseDTO<>(errorResponseDTO);
+            } else {
+                responseDTO = new ResponseDTO<>(list);
+            }
+        } catch (Exception e) {
+            return null;
+        }
+
+        return responseDTO;
+    }
 }
