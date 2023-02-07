@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface SearchSocialService {
     public List<SearchSocialResponseDTO> selectSocialByTag (Long tagId);
+
+    public List<SearchSocialResponseDTO> selectSocialByKeyword (String keyword);
 }
