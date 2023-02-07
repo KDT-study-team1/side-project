@@ -13,4 +13,6 @@ public interface SearchSocialRepository extends JpaRepository<Social, Long> {
             "(SELECT st.social.id from SocialTag st where st.tag.id = :tagNum )")
     List<Social> findByTagId(@Param("tagNum") Long tagNum);
 
+    List<Social> findByTitleContainingOrContentsContaining(String title, String content);
+
 }
