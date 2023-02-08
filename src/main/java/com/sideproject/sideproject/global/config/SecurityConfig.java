@@ -1,56 +1,53 @@
 package com.sideproject.sideproject.global.config;
 
 
-import com.sideproject.sideproject.global.jwt.JwtAuthenticationFilter;
 import com.sideproject.sideproject.global.jwt.JwtAuthorizationFilter;
-import com.sideproject.sideproject.global.jwt.JwtUtils;
-import com.sideproject.sideproject.user.repository.UserRepository;
+import com.sideproject.sideproject.global.jwt.authToken.AuthTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
+import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig{
-
-    private final UserRepository userRepository;
+    private String REFRESH_COOKIE = "refreshToken";
+    private final AuthTokenProvider authTokenProvider;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
-        String[] matchers = {"/", "/login/**", "/users", "/refresh", "/swagger-ui/**", "/api-docs/**"};
-
-        //login
         http
                 .cors()//기본 cors 설정
                 .and()
-                .csrf().disable() //csrf 비활성화
-                .httpBasic().disable() //httpBasic 인증 비활성화
+                .csrf().disable()
                 .formLogin().disable() //formLogin 인증 비활성화
+                .httpBasic().disable() //httpBasic 인증 비활성화
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests().antMatchers(matchers).permitAll() //모두에게 허용할 URL
-                .anyRequest().authenticated(); //인증이 되었는지 검증
+                .authorizeRequests().antMatchers(
+                        "/oauth2/**", "/", "/login/**", "/users", "/refresh", "/swagger-ui/**", "/api-docs/**")
+                .permitAll()
+                .anyRequest().authenticated();
 
-        //logout
+        http
+                .apply(new MyCustomDsl());
+
         http
                 .logout().permitAll()
                 .logoutUrl("/logout")
-                .deleteCookies(); //로그아웃 후 쿠키 삭제
-//                .addLogoutHandler() //DB에서 RT 삭제
-//                .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK));
-
-
+                .deleteCookies(REFRESH_COOKIE) //로그아웃 후 쿠키 삭제
+                .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK));
 
         return http.build();
     }
@@ -60,4 +57,12 @@ public class SecurityConfig{
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
+    public class MyCustomDsl extends AbstractHttpConfigurer<MyCustomDsl, HttpSecurity> {
+        @Override
+        public void configure(HttpSecurity http) throws Exception {
+            AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
+            http
+                    .addFilterAfter(new JwtAuthorizationFilter(authenticationManager, authTokenProvider), CorsFilter.class);
+        }
+    }
 }

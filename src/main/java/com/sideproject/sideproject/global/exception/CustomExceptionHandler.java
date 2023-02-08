@@ -8,7 +8,6 @@ import com.sideproject.sideproject.user.exception.UserException;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -17,15 +16,6 @@ import javax.validation.ConstraintViolationException;
 
 @RestControllerAdvice
 public class CustomExceptionHandler implements ErrorController {
-
-    //400 에러 처리하는 핸들러
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(value = {UserException.class}) //나중에 다른 예외가 생기면 추가할 것
-    public ErrorResponseDTO handleBadRequest(CustomException ex){
-        return ErrorResponseDTO.builder()
-                .errorCode(ex.getCustomExceptionType().getErrorCode())
-                .build();
-    }
 
     //user 에서 발생하는 예외 처리 하는 핸들러
     @ExceptionHandler(value = UserException.class)
