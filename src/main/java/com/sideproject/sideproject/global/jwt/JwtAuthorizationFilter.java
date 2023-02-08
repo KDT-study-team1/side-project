@@ -1,80 +1,83 @@
 package com.sideproject.sideproject.global.jwt;
 
-import com.sideproject.sideproject.user.repository.UserRepository;
+import com.sideproject.sideproject.global.CustomUserDetails;
+import com.sideproject.sideproject.global.jwt.authToken.AuthToken;
+import com.sideproject.sideproject.global.jwt.authToken.AuthTokenProvider;
+import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.http.HttpHeaders;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.util.StringUtils;
 
+import javax.security.sasl.AuthenticationException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
 
 /**
- * 토큰 인증 담당
- *
- * 1. cookie에서 jwt token을 가져온다.
- * 2. token을 파싱해서 user email을 구한다.
- * 3. user email로 User 엔티티를 가져오고 Authentication을 생성한다.
- * 4. 생성된 Authentication을 SecurityContext에 넣는다.
- * 5. Exeption이 발생하면 response의 cookie를 null 변경한다.
+ *  antMatchers 경로 제외하고 인증 필요한 모든 요청 여기로 들어옴
+ * 검증에는 Access Token 만 필요
  */
 @Slf4j
-public class JwtAuthorizationFilter extends OncePerRequestFilter {
+public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
-    private UserRepository userRepository;
+    private String TOKEN_PREFIX = "Bearer ";
 
-    public JwtAuthorizationFilter(UserRepository userRepository){
-        this.userRepository = userRepository;
+    private AuthTokenProvider authTokenProvider;
+
+    public JwtAuthorizationFilter(AuthenticationManager authenticationManager, AuthTokenProvider authTokenProvider) {
+        super(authenticationManager);
+        this.authTokenProvider = authTokenProvider;
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
-        log.info("JWT filter is running...");
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 
-        String token = null;
-        try { //쿠키에서 JWT 토큰을 가져오기
-            token = Arrays.stream(request.getCookies())
-                    .filter(cookie -> cookie.getName().equals(JwtProperties.COOKIE_NAME)) //필요한 쿠키만 가져오기
-                    .findFirst()
-                    .map(Cookie::getValue) //쿠키 값 가져오기
-                    .orElse(null); //못 찾아오면 null
-        }catch (Exception ignored){
-            //아무것도 안함?
-        }
-
-        if(token != null){
+        log.info("JWT Filter is running...");
+        // 요청에서 토큰 가져오기
+        String tokenStr = parseBearerToken(request);
+        if(tokenStr != null && !tokenStr.equalsIgnoreCase("null")){
             try{
-                //athentication을 만들어서 SecurityContext에 넣는다.
-                Authentication authentication = this.getUsernamePasswordAuthenticationToken(token);
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }catch (Exception e){
-                //실패하면 cookie 초기화 (실패하면 쿠키가 쓸모 없어져서)
-                Cookie cookie = new Cookie(JwtProperties.COOKIE_NAME,null);
-                cookie.setMaxAge(0);
-                response.addCookie(cookie);
+                //string -> AuthToken
+                AuthToken authToken = authTokenProvider.convertAuthToken(tokenStr);
+
+                //토큰 검증 (jwt이므로 인가서버에 요청하지 않고도 검증 가능)
+                AbstractAuthenticationToken authentication = authTokenProvider.getAuthentication(authToken);
+                CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+
+                //토큰 타입 검증
+                if(userDetails != null && !userDetails.getJwtType().equals(JwtType.ACCESS)) throw new JwtException("Access Token type 이 아닙니다");
+
+                //사용자 인증정보 SecurityContextHolder에 등록(요청 끝날때까지 들고있어야함)
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+                securityContext.setAuthentication(authentication);
+                SecurityContextHolder.setContext(securityContext);
+            } catch (JwtException ex){
+                log.info("유효기간이 만료되었거나 구조가 잘못되었거나 파싱 실패한 토큰입니다.", ex);
+                throw new AuthenticationException("AuthenticationException 에러");
             }
         }
 
         filterChain.doFilter(request, response);
     }
 
-    /**
-     * JWT 토큰으로 User를 찾아서 UsernamePasswordAuthenticationToken으로 만들어서 리턴
-     * User가 없으면 null
-     */
-    private Authentication getUsernamePasswordAuthenticationToken(String token){
-        String userEmail = JwtUtils.getUserEmail(token);
-        if(userEmail != null){
-            return new UsernamePasswordAuthenticationToken(userEmail, null, AuthorityUtils.NO_AUTHORITIES);
+    public String parseBearerToken(HttpServletRequest request) {
+        // http 헤더 파싱해 토큰 얻음
+        String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
+
+        //AccessToken인지 검증, 토큰 파싱
+        if(StringUtils.hasText(authorization) && authorization.startsWith(TOKEN_PREFIX)){
+            return authorization.replace(TOKEN_PREFIX,"");
         }
         return null;
     }
 }
+
