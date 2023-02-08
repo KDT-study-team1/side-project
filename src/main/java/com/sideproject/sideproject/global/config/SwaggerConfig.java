@@ -9,23 +9,30 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.awt.*;
 
 @Configuration
 public class SwaggerConfig {
-
-    SecurityScheme basicAuth = new SecurityScheme()
-            .type(SecurityScheme.Type.HTTP).scheme("basic");
-    SecurityRequirement securityItem = new SecurityRequirement().addList("basicAuth");
-
     @Bean
     public OpenAPI openAPI(@Value("${springdoc.version}") String appVersion) {
+        String tokenSchemeName = "jwtAuth";
+        // API 요청헤더에 스키마 추가
+        SecurityRequirement securityRequirement = new SecurityRequirement().addList(tokenSchemeName);
+        // SecuritySchemes 에 등록
+        Components components = new Components()
+                .addSecuritySchemes(tokenSchemeName, new SecurityScheme()
+                        .name(tokenSchemeName)
+                        .type(SecurityScheme.Type.HTTP) // 스키마 타입 지정
+                        .scheme("bearer"));
+
         return new OpenAPI()
-                .components(new Components().addSecuritySchemes("basicAuth",basicAuth))
-                .addSecurityItem(securityItem)
+                .components(new Components())
                 .info(new Info()
                         .title("그룹스터디 1조 API")
                         .version(appVersion)
-                        .description("사이드 프로젝트 API 명세서"));
+                        .description("사이드 프로젝트 API 명세서"))
+                .addSecurityItem(securityRequirement)
+                .components(components);
     }
+
 }
+
