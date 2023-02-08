@@ -9,6 +9,8 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 public class UserResponseDTO {
+
+    private Long userId;
     private String email;
     private String nickname;
     private String name;
@@ -17,6 +19,7 @@ public class UserResponseDTO {
 
     @Builder
     public UserResponseDTO(User user){
+        this.userId = user.getId();
         this.email = user.getEmail();
         this.nickname = user.getNickname();
         this.name = user.getUsername();
